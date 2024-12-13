@@ -1,6 +1,10 @@
 <template>
-  <u-page class="statisticAnalysis">
-    <Filter class="filter" @change="filterChange" v-bind="filterProps"></Filter>
+  <u-page>
+    <TopFilter
+      class="filter"
+      @change="filterChange"
+      v-bind="filterProps"
+    ></TopFilter>
 
     <ScrollView
       ref="scrollViewRef"
@@ -31,7 +35,10 @@
             <template v-if="getVisible(item.visible)">
               <div class="label">{{ item.label }}</div>
               <div class="value">
-                {{ slotProps.item[item.valueKey] }}
+                <Item
+                  v-bind="getPropsFromOptions(item, slotProps.item)"
+                  @click="item.events.click(slotProps.item)"
+                />
               </div>
             </template>
           </div>
@@ -52,10 +59,10 @@
 </template>
 
 <script setup lang="ts">
-import Filter from '@/components/Filter'
-import ScrollView from '@/components/ScrollView'
-import Card from '@/components/Card'
-import Item from '@/components/Item'
+import TopFilter from '../TopFilter'
+import ScrollView from '../ScrollView'
+import Card from '../Card'
+import Item from '../Item'
 import { ref, useSlots } from 'vue'
 
 const slots = useSlots()
