@@ -1,0 +1,11 @@
+{
+  "name": "voyagejs-mobile",
+  "version": "0.0.2",
+  "main": "index.js",
+  "files": [
+    "packages"
+  ],
+  "repository": "https://github.com/GaoYuancheng/voyagejs-mobile.git",
+  "author": "gaoyuancheng <389152147@qq.com>",
+  "license": "MIT"
+}
