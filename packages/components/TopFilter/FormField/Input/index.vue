@@ -1,7 +1,5 @@
 <template>
-  <div class="label">
-    {{ label }}
-  </div>
+  <div class="label">{{ label }}</div>
 
   <div class="inputArea">
     <u-input

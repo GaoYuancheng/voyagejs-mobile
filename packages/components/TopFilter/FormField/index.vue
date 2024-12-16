@@ -4,7 +4,7 @@
     <Input v-if="type === 'input'" v-bind="fieldProps" v-on="resFieldEvents" />
 
     <template v-if="type === 'select'">
-      <SelectSub v-if="isSub" v-bind="fieldProps" v-on="resFieldEvents" />
+      <SelectSub v-if="!isDropdown" v-bind="fieldProps" v-on="resFieldEvents" />
       <Select v-else v-bind="fieldProps" v-on="resFieldEvents" />
     </template>
 
@@ -37,10 +37,15 @@
     />
 
     <Tags v-if="type === 'tags'" v-bind="fieldProps" v-on="resFieldEvents" />
+    <Picker
+      v-if="type === 'picker'"
+      v-bind="fieldProps"
+      v-on="resFieldEvents"
+    />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Input from './Input/index.vue'
 import Select from './Select/index.vue'
 import SelectSub from './SelectSub/index.vue'
@@ -48,13 +53,18 @@ import DateRangePicker from './DateRangePicker/index.vue'
 import DatePicker from './DatePicker/index.vue'
 import Member from './Member/index.vue'
 import Organization from './Organization/index.vue'
-import Search from './Search'
-import Tags from './Tags'
+import Search from './Search/index.vue'
+import Tags from './Tags/index.vue'
+import Picker from './Picker/index.vue'
 import { ref } from 'vue'
 
 const emits = defineEmits(['fieldChange'])
 
-const { itemProps, isSub, isDropdown, show } = defineProps({
+const { itemProps, isDropdown, show } = defineProps({
+  type: {
+    type: String,
+    default: 'input'
+  },
   show: {
     type: Boolean,
     default: () => true
@@ -63,24 +73,20 @@ const { itemProps, isSub, isDropdown, show } = defineProps({
     type: Object,
     default: () => ({})
   },
-  isSub: {
-    type: Boolean,
-    default: false
-  },
   isDropdown: {
     type: Boolean,
     default: false
   }
 })
 
-const { fieldEvents = {}, ...restProps } = itemProps
+const { fieldEvents = {}, type, ...restProps } = itemProps
+console.log('type:', type)
 
 const resFieldEvents = {
   ...fieldEvents,
   fieldChange: value => emits('fieldChange', value)
 }
 
-const { type } = restProps
 const fieldProps = {
   ...restProps,
   isDropdown

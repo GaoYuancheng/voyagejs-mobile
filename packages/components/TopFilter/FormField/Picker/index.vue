@@ -1,22 +1,17 @@
 <template>
-  <div class="label">{{ label }}</div>
+  <div class="label" v-if="isDropdown">{{ label }}</div>
 
   <div class="searchArea" @click="showRef = true">
     <div class="text">
-      <span v-if="valueRef">{{ inputValue }}</span>
+      <span v-if="!isDropdown">{{ label }}</span>
+      <span v-else-if="valueRef">{{ inputValue }}</span>
       <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
       <u-icon class="icon" name="arrow-down"></u-icon>
     </div>
   </div>
 
   <Teleport to="body">
-    <u-select
-      v-model="showRef"
-      mode="single-column"
-      :list="optionsRef"
-      @confirm="confirm"
-      v-bind="fieldProps"
-    />
+    <u-picker v-model="showRef" @confirm="confirm" v-bind="fieldProps" />
   </Teleport>
 </template>
 
@@ -58,23 +53,29 @@ const props = defineProps({
   },
   isDropdown: {
     type: Boolean,
-    default: true
+    default: false
   }
 })
 
-const { label, fieldProps, name } = props
+const { label, fieldProps, name, isDropdown } = props
 
 const optionsRef = ref([])
 
-const inputValue = computed(
-  () =>
-    optionsRef.value.find(item => item.value === valueRef.value)?.label || ''
-)
-
 const showRef = ref(false)
 
+const inputValue = computed(() => {
+  if (!valueRef.value) return ''
+  const { year, month, day } = valueRef.value
+  let res = ''
+  if (year) res += year
+  if (month) res += `-${month}`
+  if (day) res += `-${day}`
+  return res
+})
+
 const confirm = val => {
-  change(val[0].value)
+  console.log('confirm ~ val:', val)
+  change(val)
 }
 
 const { valueRef, change } = useFormFieldProps(name, emits)

@@ -10,6 +10,7 @@
         <FormField
           v-else
           v-for="item in mainSearch"
+          :key="item.name"
           @fieldChange="value => fieldChange(value, item)"
           :itemProps="item"
         />
@@ -60,7 +61,6 @@
           :key="item.name"
           v-for="item in sub"
           :itemProps="item"
-          :isSub="true"
           @fieldChange="value => fieldChange(value, item)"
         />
       </u-dropdown>
@@ -219,12 +219,15 @@ const submit = () => {
   .header {
     padding: 16rpx;
     &.hasSub {
-      padding-bottom: 0;
+      // padding-bottom: 0;
     }
     display: flex;
     align-items: center;
     .mainSearch {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .dropdownIcon {
       width: 44rpx;

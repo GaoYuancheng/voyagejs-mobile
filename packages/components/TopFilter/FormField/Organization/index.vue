@@ -42,6 +42,10 @@ const { label, fieldProps, name } = defineProps({
   fieldProps: {
     type: Object,
     default: () => ({})
+  },
+  isDropdown: {
+    type: Boolean,
+    default: true
   }
 })
 
