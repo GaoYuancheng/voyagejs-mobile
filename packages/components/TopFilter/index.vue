@@ -68,7 +68,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { provide, ref, toRef, useSlots, watch } from 'vue'
 import FormField from './FormField/index.vue'
 import Organization from './Organization/index.vue'
@@ -76,18 +76,53 @@ import Organization from './Organization/index.vue'
 const cdn = 'https://cdn-zz.pinming.cn/lib/front/mobile/zz/common'
 
 const emits = defineEmits(['change'])
-const props = defineProps({
-  initialValues: {
-    type: Object,
-    default: () => ({})
-  },
-  filterConfig: {
-    type: Object,
-    default: () => ({})
-  }
-})
 
-const { initialValues, filterConfig } = props
+type optionItem = {
+  label: string
+  value: string
+} & Record<string, any>
+
+export type FilterItem = {
+  /** 筛选项类型 */
+  type:
+    | 'search'
+    | 'input'
+    | 'select'
+    | 'date'
+    | 'dateRange'
+    | 'member'
+    | 'organization'
+    | 'tags'
+  /** 表单项参数 会传入表单控件中 */
+  fieldProps: any
+  /** 表单label */
+  label: string
+  /** 表单options type为  select 时生效 */
+  options?: optionItem[]
+  name: string
+}
+
+export type TopFilterProps = {
+  // TODO: 后续使用泛型
+  /** 初始值 */
+  initialValues?: any
+  filterConfig: {
+    /** 主筛选 */
+    mainSearch?: FilterItem[]
+    /** 子筛选 */
+    sub?: FilterItem[]
+    /** 右侧组织选择 项目级自动隐藏 */
+    organization?: FilterItem
+    /** 右侧下拉筛选 */
+    dropdown?: FilterItem[]
+    /** 表单项事件 */
+    fieldEvents?: Record<string, any>
+  }
+}
+
+const props = defineProps<TopFilterProps>()
+
+const { initialValues = {}, filterConfig = {} } = props
 
 const { mainSearch, sub, dropdown, organization } = filterConfig
 

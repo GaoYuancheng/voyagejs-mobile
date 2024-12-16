@@ -29,123 +29,119 @@
   </scroll-view>
 </template>
 
-<script setup>
-import { onMounted, ref, watch } from 'vue';
-const props = defineProps({
-  height: {
-    type: String,
-    default: '100%',
-  },
-  rowKey: {
-    type: String,
-    default: 'id',
-  },
-  request: {
-    // 请求
-    type: Function,
-    //
-    default: (pageInfo, params) => {
-      return {
-        pages: 0,
-        total: 0,
-        dataList: [],
-      };
-    },
-  },
-  options: {
-    // 默认配置
-    type: Object,
-    default: {},
-  },
+<script setup lang="ts">
+import { onMounted, ref, watch } from 'vue'
+import { type PageInfo } from './type'
 
-  params: {
-    // 筛选参数 会带到request中
-    type: Object,
-    default: {},
-  },
-});
+export type { PageInfo }
+export interface ScrollViewProps {
+  /** 高度 */
+  height?: string
+  /** 行key */
+  rowKey?: string
+  /* 请求   */
+  request?: (
+    pageInfo: PageInfo,
+    params: any
+  ) => Promise<{
+    pages: number
+    total: number
+    dataList: any[]
+  }>
+  /** 筛选参数 会带到request 中 */
+  params: any
+  /** 配置 */
+  options?: {
+    /*  默认分页size */
+    defaultPageSize: PageInfo['pageSize']
+  }
+}
 
-const { options, request, params, rowKey } = props;
-const { defaultPageSize = 10 } = options;
+const props = defineProps<ScrollViewProps>()
 
-const triggered = ref(false);
-const status = ref('loadmore');
-const list = ref([]);
-const pageInfo = ref({
+const { options, request, params = {}, rowKey = 'id' } = props
+const { defaultPageSize = 10 } = options || {}
+
+const triggered = ref(false)
+const status = ref('loadmore')
+const list = ref<any[]>([])
+const pageInfo = ref<PageInfo>({
   pageNum: 1,
   pageSize: defaultPageSize,
   pages: 0,
-  total: 0,
-});
+  total: 0
+})
 
-const loading = status.value === 'loading';
+const loading = status.value === 'loading'
 
-const getList = async (pageNum, params) => {
+const getList = async (pageNum: PageInfo['pageNum'], params?: any) => {
   uni.showLoading({
-    title: '加载中...',
-  });
-  if (loading) return;
+    title: '加载中...'
+  })
+  if (loading) return
 
-  const pageSize = pageInfo.value.pageSize;
-  status.value = 'loading';
+  if (!request) return
+
+  const pageSize = pageInfo.value.pageSize
+  status.value = 'loading'
   try {
-    const res = await request({ pageNum, pageSize }, params);
+    const res = await request({ pageNum, pageSize }, params)
     if (pageNum === 1) {
-      list.value = res?.dataList || [];
+      list.value = res?.dataList || []
     } else {
-      list.value = list.value.concat(res?.dataList || []);
+      list.value = list.value.concat(res?.dataList || [])
     }
 
-    const resPage = res?.pages || Math.ceil(res?.total / pageSize);
+    const resPage = res?.pages || Math.ceil(res?.total / pageSize)
 
     pageInfo.value = {
       pageNum,
       pageSize,
       pages: resPage,
-      total: res?.total,
-    };
+      total: res?.total
+    }
   } finally {
     if (list.value.length === pageInfo.value.total) {
-      status.value = 'nomore';
+      status.value = 'nomore'
     } else {
-      status.value = 'loadmore';
+      status.value = 'loadmore'
     }
-    uni.hideLoading();
+    uni.hideLoading()
   }
-};
+}
 
 // 上拉
 const onRefresh = async () => {
-  triggered.value = true;
-  await getList(1);
-  triggered.value = false;
-};
+  triggered.value = true
+  await getList(1)
+  triggered.value = false
+}
 
 // 触底
 const scrolltolower = async () => {
-  if (loading) return;
-  const params = { ...pageInfo.value };
-  if (params.pageNum < params.pages) {
-    params.pageNum++;
-    await getList(params.pageNum);
+  if (loading) return
+  const params = { ...pageInfo.value }
+  if (params.pageNum < (params.pages || 0)) {
+    params.pageNum++
+    await getList(params.pageNum)
   }
-};
+}
 
 watch(
-  () => props.params,
-  (newValue) => {
-    getList(1, newValue);
+  () => params,
+  newValue => {
+    getList(1, newValue)
   },
   {
     immediate: true,
-    deep: true,
-  },
-);
+    deep: true
+  }
+)
 
 defineExpose({
   refresh: () => getList(1),
-  getList,
-});
+  getList
+})
 </script>
 
 <style lang="scss" scoped>
