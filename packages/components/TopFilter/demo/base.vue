@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Filter
+    <TopFilter
       :filterConfig="filterConfig"
       @change="filterChange"
       :initialValues="initialValues"
     >
       <!-- <template #mainSearch> {{ filterOutRef.input1 }} </template> -->
-    </Filter>
+    </TopFilter>
     <div @click="filterRefClick">
       {{ JSON.stringify(filterOutRef, null, 2) }}
     </div>
@@ -15,14 +15,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Filter from 'voyagejs-mobile/packages/components/TopFilter'
+import { TopFilter } from 'voyagejs-mobile'
 
 const initialValues = {
   programmeGrade11: '2',
   input1: '1'
 }
 
-const filterOutRef = ref({})
+const filterOutRef = ref(initialValues)
 
 const filterRefClick = () => {
   console.log(filterOutRef.value)
@@ -41,41 +41,81 @@ const filterConfig = {
       isSearch: true
     }
   },
-  mainSearch: {
-    type: 'tags',
-    name: 'tags',
-    fieldEvents: {
-      change: (value, filterRef) => {
-        if (value === 'year') {
-          filterRef.value.dateRange = {
-            startDate: '2022-01-01',
-            endDate: '2022-12-31'
-          }
+  mainSearch: [
+    // {
+    //   type: 'tags',
+    //   name: 'tags',
+    //   fieldEvents: {
+    //     change: (value, filterRef) => {
+    //       if (value === 'year') {
+    //         filterRef.value.dateRange = {
+    //           startDate: '2022-01-01',
+    //           endDate: '2022-12-31'
+    //         }
+    //       }
+    //     }
+    //   },
+    //   fieldProps: {
+    //     options: [
+    //       {
+    //         label: '本年',
+    //         value: 'year'
+    //       },
+    //       {
+    //         label: '本季',
+    //         value: 'quarter'
+    //       },
+    //       {
+    //         label: '本月',
+    //         value: 'month'
+    //       }
+    //     ]
+    //   }
+    // }
+    {
+      name: 'picker',
+      type: 'picker',
+      label: 'picker',
+      fieldProps: {
+        params: {
+          year: true,
+          month: true,
+          day: true,
+          hour: false,
+          minute: false,
+          second: false,
+          province: true,
+          city: true,
+          area: true,
+          timestamp: true
+        }
+      }
+    }
+  ],
+  dropdown: [
+    {
+      name: 'picker1',
+      type: 'picker',
+      label: 'picker1',
+      fieldProps: {
+        params: {
+          year: true,
+          month: true,
+          day: false,
+          hour: false,
+          minute: false,
+          second: false,
+          province: true,
+          city: true,
+          area: true,
+          timestamp: true
         }
       }
     },
-    fieldProps: {
-      options: [
-        {
-          label: '本年',
-          value: 'year'
-        },
-        {
-          label: '本季',
-          value: 'quarter'
-        },
-        {
-          label: '本月',
-          value: 'month'
-        }
-      ]
-    }
-  },
-  dropdown: [
     {
       name: 'input1',
       type: 'input',
-      label: 'input1',
+      label: 'input111',
       fieldProps: {
         placeholder: '请输入'
       },
@@ -142,20 +182,20 @@ const filterConfig = {
       }
     },
 
-    // {
-    //   name: 'dropdownOrganization',
-    //   type: 'organization',
-    //   label: '选择单位',
-    //   fieldProps: {
-    //     param: {
-    //       depart: false,
-    //       company: false,
-    //       project: true,
-    //       subCompany: false
-    //     },
-    //     isSearch: true
-    //   }
-    // },
+    {
+      name: 'dropdownOrganization',
+      type: 'organization',
+      label: '选择单位',
+      fieldProps: {
+        param: {
+          depart: false,
+          company: false,
+          project: true,
+          subCompany: false
+        },
+        isSearch: true
+      }
+    },
     {
       name: 'dropdownMember',
       type: 'member',
