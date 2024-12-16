@@ -12,8 +12,7 @@
 
 <script setup lang="ts">
 import { mockRequest } from '../../../utils'
-import ScrollViewPage from '../ScrollViewPage'
-// import { schemePlanStatusOptions, schemeTypeOptions } from '@/constants'
+import ScrollViewPage from './ScrollViewPage'
 import { ref } from 'vue'
 
 const mockData = {

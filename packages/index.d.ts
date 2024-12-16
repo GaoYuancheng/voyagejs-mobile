@@ -8,21 +8,6 @@ import Item from './components/Item/index.vue'
 import Description from './components/Description/index.vue'
 import {mockRequest , sleep} from '../packages/utils'
 
-const install = (app) => {
-  app.component("ScrollView", ScrollView);
-  app.component("TopFilter", TopFilter);
-  app.component("Card", Card);
-  app.component("RingChart", RingChart);
-  app.component("ScrollViewPage", ScrollViewPage);
-  app.component("StatisticCard", StatisticCard)
-  app.component("Description", Description)
-  app.component("Item", Item)
-};
-
-export default {
-  install,
-};
-
 
 export {
   ScrollView,

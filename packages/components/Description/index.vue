@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { getVisible } from '@/utils'
+import { getVisible } from '../../utils'
 import DescriptionItem from './DescriptionItem/index.vue'
 import { Item, LabelProps, ValueProps } from './type'
 

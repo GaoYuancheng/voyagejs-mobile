@@ -58,7 +58,7 @@ import ScrollView from '../ScrollView/index.vue'
 import Card from '../Card/index.vue'
 import Item from '../Item/index.vue'
 import { ref, useSlots } from 'vue'
-import { getVisible } from '@/utils'
+import { getVisible } from '../../utils'
 
 const slots = useSlots()
 

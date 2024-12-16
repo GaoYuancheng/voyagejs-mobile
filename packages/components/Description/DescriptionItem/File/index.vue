@@ -15,18 +15,17 @@
 <script setup lang="ts">
 // './image/icon_' + getFileSuffix(fileInfo.fileName) + '.png'
 
-import { getFileSuffix, previewFile } from '@/utils'
+import { getFileSuffix, previewFile } from '../../../../utils'
 import { Item } from '../../type'
 import { computed, ref, watch } from 'vue'
 
 const item = defineProps<Item>()
 
 const { fileInfo } = item
-console.log('item:', item)
-const { fileName, fileUrl, fileSize } = fileInfo
+const { fileName, fileUrl, fileSize } = fileInfo || {}
 
 const click = (data: Item) => {
-  item.onClick(item)
+  item?.onClick?.(item)
 }
 
 const imgUrl = ref()
