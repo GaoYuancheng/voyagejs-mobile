@@ -82,7 +82,7 @@ type optionItem = {
   value: string
 } & Record<string, any>
 
-export type FilterItem = {
+type FilterItem = {
   /** 筛选项类型 */
   type:
     | 'search'
@@ -102,7 +102,7 @@ export type FilterItem = {
   name: string
 }
 
-export type TopFilterProps = {
+type TopFilterProps = {
   // TODO: 后续使用泛型
   /** 初始值 */
   initialValues?: any

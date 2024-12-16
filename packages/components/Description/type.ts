@@ -1,3 +1,18 @@
+type FileItem = {
+  type?: 'file'
+  fileInfo?: FileInfo
+}
+
+type CheckboxItem = {
+  type: 'checkbox'
+  options: {
+    label: string
+    value: string
+  }[]
+}
+
+type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
+
 export interface LabelProps {
   labelCol?: number
   labelStyle?: object
@@ -8,22 +23,7 @@ export interface ValueProps {
   valueStyle?: object
 }
 
-type FileItem = {
-  type?: 'file'
-  fileInfo?: FileInfo
-}
-
-type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
-
-type CheckboxItem = {
-  type: 'checkbox'
-  options: {
-    label: string
-    value: string
-  }[]
-}
-
-export type DescriptionItem = {
+export type DescriptionItemType = {
   label?: string
   type?: 'info' | 'file' | 'checkbox'
   value?: string
@@ -34,6 +34,6 @@ export type DescriptionItem = {
     value: string
   }[]
   visible?: boolean
-  onClick?: (item: DescriptionItem) => void
+  onClick?: (item: DescriptionItemType) => void
 } & ValueProps &
   LabelProps

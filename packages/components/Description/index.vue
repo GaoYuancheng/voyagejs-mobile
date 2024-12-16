@@ -9,13 +9,38 @@
 
 <script setup lang="ts">
 import { getVisible } from '../../utils'
-import { type DescriptionItem, LabelProps, ValueProps } from './type'
+import DescriptionItem from './DescriptionItem/index.vue'
 
-export type { DescriptionItem, LabelProps, ValueProps }
+type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
 
-export type DescriptionProps = {
+interface LabelProps {
+  labelCol?: number
+  labelStyle?: object
+}
+
+interface ValueProps {
+  valueCol?: number
+  valueStyle?: object
+}
+
+type DescriptionItemType = {
+  label?: string
+  type?: 'info' | 'file' | 'checkbox'
+  value?: string
+  fileInfo?: FileInfo
+  options?: {
+    // 暂时先这么处理
+    label: string
+    value: string
+  }[]
+  visible?: boolean
+  onClick?: (item: DescriptionItemType) => void
+} & ValueProps &
+  LabelProps
+
+type DescriptionProps = {
   title: string
-  items: DescriptionItem[]
+  items: DescriptionItemType[]
 } & ValueProps &
   LabelProps
 
@@ -26,7 +51,7 @@ const { title, items, valueCol, labelCol } = defineProps<DescriptionProps>()
 .title {
   font-size: 30rpx;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, 0.85);
 }
 .body {
   background-color: white;
@@ -36,7 +61,7 @@ const { title, items, valueCol, labelCol } = defineProps<DescriptionProps>()
   font-weight: 400;
   .item {
     padding: 24rpx;
-
+    border-bottom: 1px solid #eee;
     // .value {
     //   color: rgba(0, 0, 0, 0.65);
     //   flex: 1;

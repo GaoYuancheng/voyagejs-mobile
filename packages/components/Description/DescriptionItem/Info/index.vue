@@ -8,11 +8,37 @@
 </template>
 
 <script setup lang="ts">
-import { DescriptionItem } from '../../type'
+type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
+
+interface LabelProps {
+  labelCol?: number
+  labelStyle?: object
+}
+
+interface ValueProps {
+  valueCol?: number
+  valueStyle?: object
+}
+
+type DescriptionItemType = {
+  label?: string
+  type?: 'info' | 'file' | 'checkbox'
+  value?: string
+  fileInfo?: FileInfo
+  options?: {
+    // 暂时先这么处理
+    label: string
+    value: string
+  }[]
+  visible?: boolean
+  onClick?: (item: DescriptionItemType) => void
+} & ValueProps &
+  LabelProps
+
 import Label from '../../Label/index.vue'
 import Value from '../../Value/index.vue'
 
-const item = defineProps<DescriptionItem>()
+const item = defineProps<DescriptionItemType>()
 </script>
 
 <style lang="scss" scoped>
