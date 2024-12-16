@@ -1,26 +1,21 @@
 <template>
-  <span v-if="type === 'text'" @click="emits('click')">
+  <span v-if="type === 'text'" @click="click">
     {{ text }}
   </span>
 
-  <span
-    v-if="type === 'tag'"
-    class="tag"
-    :style="style"
-    @click="emits('click')"
-  >
+  <span v-if="type === 'tag'" class="tag" :style="style" @click="click">
     {{ text }}</span
   >
   <span
     v-if="type === 'button'"
     class="button"
     :class="buttonProps.type"
-    @click="emits('click')"
+    @click="click"
   >
     {{ text }}</span
   >
 
-  <span v-if="type === 'badge'" class="badge"
+  <span v-if="type === 'badge'" class="badge" @click="click"
     ><span
       class="badgeIcon"
       :style="{
@@ -40,12 +35,11 @@ interface Item {
   visible: boolean
   type: 'text' | 'tag' | 'button' | 'badge'
   text: string
-  events: Record<string, Function>
 }
 
 const emits = defineEmits(['click'])
 
-const { type, text, events, style, badgeProps } = defineProps({
+const item = defineProps({
   type: {
     type: String,
     default: 'text'
@@ -53,10 +47,6 @@ const { type, text, events, style, badgeProps } = defineProps({
   text: {
     type: String,
     default: ''
-  },
-  events: {
-    type: Object,
-    default: () => ({})
   },
   style: {
     type: Object,
@@ -69,8 +59,17 @@ const { type, text, events, style, badgeProps } = defineProps({
   buttonProps: {
     type: Object,
     default: () => ({})
+  },
+  onClick: {
+    type: Function,
+    default: () => {}
   }
 })
+const { type, text, style, badgeProps, onClick } = item
+
+const click = () => {
+  onClick(item)
+}
 
 const { iconColor } = badgeProps
 </script>
@@ -80,12 +79,14 @@ const { iconColor } = badgeProps
   padding: 6rpx 12rpx;
 }
 .badge {
+  display: flex;
+  align-items: center;
   .badgeIcon {
     display: inline-block;
     width: 12rpx;
     height: 12rpx;
     border-radius: 50%;
-    margin-right: 8rpx;
+    margin-right: 16rpx;
   }
 }
 </style>

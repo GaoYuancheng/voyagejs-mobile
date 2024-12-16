@@ -20,25 +20,20 @@
           <Item
             v-for="item in titleList"
             v-bind="getPropsFromOptions(item, slotProps.item)"
-            @click="item.events.click(slotProps.item)"
           />
         </template>
         <template #extra>
           <Item
             v-for="item in extraList"
             v-bind="getPropsFromOptions(item, slotProps.item)"
-            @click="item.events.click(slotProps.item)"
           />
         </template>
         <template #body>
           <div class="info" v-for="item in bodyList">
-            <template v-if="getVisible(item.visible)">
+            <template v-if="getVisible(item.visible, item)">
               <div class="label">{{ item.label }}</div>
               <div class="value">
-                <Item
-                  v-bind="getPropsFromOptions(item, slotProps.item)"
-                  @click="item.events.click(slotProps.item)"
-                />
+                <Item v-bind="getPropsFromOptions(item, slotProps.item)" />
               </div>
             </template>
           </div>
@@ -49,7 +44,6 @@
             <Item
               v-for="item in footerList"
               v-bind="getPropsFromOptions(item, slotProps.item)"
-              @click="item.events.click(slotProps.item)"
             />
           </div>
         </template>
@@ -59,11 +53,12 @@
 </template>
 
 <script setup lang="ts">
-import TopFilter from '../TopFilter'
-import ScrollView from '../ScrollView'
-import Card from '../Card'
-import Item from '../Item'
+import TopFilter from '../TopFilter//index.vue'
+import ScrollView from '../ScrollView/index.vue'
+import Card from '../Card/index.vue'
+import Item from '../Item/index.vue'
 import { ref, useSlots } from 'vue'
+import { getVisible } from '@/utils'
 
 const slots = useSlots()
 
@@ -113,10 +108,6 @@ const getPropsFromOptions = (item, data) => {
     ...restItem,
     text: formatter ? formatter(obj, data) : obj.label || data[valueKey] || text
   }
-}
-
-const getVisible = (visible = true) => {
-  return !!visible
 }
 </script>
 
