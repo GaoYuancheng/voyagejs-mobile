@@ -18,7 +18,7 @@
       <div v-if="organization && !isProjectModule" class="organizationIcon">
         <Organization
           :itemProps="organization"
-          @fieldChange="value => fieldChange(value, organization)"
+          @change="value => organizationChange(value, organization)"
         />
       </div>
 
@@ -145,6 +145,11 @@ const { mainSearch: mainSearchSlot } = useSlots()
 
 const isProjectModule = uni.$u.currentUser.isProjectModule()
 
+const organizationChange = (value, item) => {
+  filterRef.value[item.name] = value
+  submit()
+}
+
 const fieldChange = (value, item) => {
   // const res = {
   //   ...filterRef.value,
@@ -200,6 +205,7 @@ const reset = () => {
 // 点击确定
 // dropdown外选择
 const submit = () => {
+  console.log('submit ~ change:')
   emits('change', { ...filterRef.value })
 }
 </script>
