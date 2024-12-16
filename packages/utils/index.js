@@ -1,6 +1,6 @@
 export const mockRequest = async (params, resData) => {
   await sleep(1000);
-  return cloneDeep(resData);
+  return cloneDeep(structuredClone(resData));
 };
 
 export const sleep = (time) => {
