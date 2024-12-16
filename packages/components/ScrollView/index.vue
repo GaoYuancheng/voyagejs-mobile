@@ -31,10 +31,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { type PageInfo } from './type'
 
-export type { PageInfo }
-export interface ScrollViewProps {
+type  PageInfo ={
+  pageNum: number
+  pageSize: number
+  pages?: number
+  total?: number
+}
+
+ interface ScrollViewProps {
   /** 高度 */
   height?: string
   /** 行key */
