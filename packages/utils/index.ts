@@ -1,20 +1,19 @@
 export const mockRequest = async (params, resData) => {
-  await sleep(1000);
-  return structuredClone(resData);
-};
+  await sleep(1000)
+  return structuredClone(resData)
+}
 
-export const sleep = (time) => {
-  return new Promise((resolve) => {
+export const sleep = time => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
+      resolve(true)
+    }, time)
+  })
+}
 
 // 获取文件后缀
 export const getFileSuffix = fileName =>
   fileName ? fileName?.split('.')?.pop() : ''
-
 
 // 预览文件
 export const previewFile = async (file, previewPageUrl) => {
@@ -24,7 +23,7 @@ export const previewFile = async (file, previewPageUrl) => {
     return
   }
   if (previewPageUrl) {
-    uni.$u.route({
+    uni.navigateTo({
       url: previewPageUrl,
       params: {
         url: encodeURIComponent(file.fileUrl)
@@ -33,8 +32,10 @@ export const previewFile = async (file, previewPageUrl) => {
   }
 }
 
-
-export const getVisible = (visible:Boolean | Function = true, data) => {
+export const getVisible = (
+  visible: Boolean | Function = true,
+  data: any = {}
+) => {
   if (typeof visible === 'function') return visible(data)
   return !!visible
 }

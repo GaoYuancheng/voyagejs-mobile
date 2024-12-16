@@ -23,7 +23,7 @@ type CheckboxItem = {
   }[]
 }
 
-export type Item = {
+export type DescriptionItem = {
   label?: string
   type?: 'info' | 'file' | 'checkbox'
   value?: string
@@ -34,9 +34,6 @@ export type Item = {
     value: string
   }[]
   visible?: boolean
-  onClick?: (data: Item) => void
-  events?: {
-    onClick?: (data: Item) => void
-  }
+  onClick?: (item: DescriptionItem) => void
 } & ValueProps &
   LabelProps

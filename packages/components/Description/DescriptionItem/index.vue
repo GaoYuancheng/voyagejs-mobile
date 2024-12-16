@@ -5,12 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { Item } from '../type'
+import { DescriptionItem } from '../type'
 import Info from './Info/index.vue'
 import CheckBox from './CheckBox/index.vue'
 import File from './File/index.vue'
 
-const item = defineProps<Item>()
+const item = defineProps<DescriptionItem>()
 
 const { type = 'info' } = item
 </script>

@@ -8,8 +8,5 @@
   ],
   "repository": "https://github.com/GaoYuancheng/voyagejs-mobile.git",
   "author": "gaoyuancheng <389152147@qq.com>",
-  "license": "MIT",
-  "dependencies": {
-    "vue": "^3.5.13"
-  }
+  "license": "MIT"
 }

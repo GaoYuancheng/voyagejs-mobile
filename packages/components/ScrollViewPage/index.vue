@@ -19,21 +19,21 @@
         <template #title>
           <Item
             v-for="item in titleList"
-            v-bind="getPropsFromOptions(item, slotProps.item)"
+            v-bind="getPropsFromOptions(slotProps.item, item)"
           />
         </template>
         <template #extra>
           <Item
             v-for="item in extraList"
-            v-bind="getPropsFromOptions(item, slotProps.item)"
+            v-bind="getPropsFromOptions(slotProps.item, item)"
           />
         </template>
         <template #body>
           <div class="info" v-for="item in bodyList">
-            <template v-if="getVisible(item.visible, item)">
+            <template v-if="getVisible(item.visible, slotProps.item)">
               <div class="label">{{ item.label }}</div>
               <div class="value">
-                <Item v-bind="getPropsFromOptions(item, slotProps.item)" />
+                <Item v-bind="getPropsFromOptions(slotProps.item, item)" />
               </div>
             </template>
           </div>
@@ -43,7 +43,7 @@
           <div class="footer">
             <Item
               v-for="item in footerList"
-              v-bind="getPropsFromOptions(item, slotProps.item)"
+              v-bind="getPropsFromOptions(slotProps.item, item)"
             />
           </div>
         </template>
@@ -91,22 +91,22 @@ const filterChange = values => {
   filterRef.value = values
 }
 
-const getPropsFromOptions = (item, data) => {
-  const {
-    options = [],
-    valueKey = '',
-    text,
-    formatter,
-    visible,
-    ...restItem
-  } = item
+const getPropsFromOptions = (data, item) => {
+  const { options = [], valueKey = '', text, visible, ...restItem } = item
   const obj = options.find(item1 => item1.value === data[valueKey]) || {}
   const { label, value, ...restObj } = obj
+
   return {
     type: item.type,
     ...restObj,
     ...restItem,
-    text: formatter ? formatter(obj, data) : obj.label || data[valueKey] || text
+    text:
+      typeof text === 'function'
+        ? text(data, obj)
+        : obj.label || data[valueKey] || text,
+    onClick: () => {
+      item.onClick?.(data, obj)
+    }
   }
 }
 </script>

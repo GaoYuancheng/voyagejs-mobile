@@ -16,15 +16,15 @@
 // './image/icon_' + getFileSuffix(fileInfo.fileName) + '.png'
 
 import { getFileSuffix, previewFile } from '../../../../utils'
-import { Item } from '../../type'
+import { DescriptionItem } from '../../type'
 import { computed, ref, watch } from 'vue'
 
-const item = defineProps<Item>()
+const item = defineProps<DescriptionItem>()
 
 const { fileInfo } = item
 const { fileName, fileUrl, fileSize } = fileInfo || {}
 
-const click = (data: Item) => {
+const click = (item: DescriptionItem) => {
   item?.onClick?.(item)
 }
 

@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import { Item } from '../type'
+import { DescriptionItem } from '../type'
 
-const item = defineProps<Item>()
+const item = defineProps<DescriptionItem>()
 </script>
 
 <style lang="scss" scoped>

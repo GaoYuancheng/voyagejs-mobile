@@ -2,23 +2,24 @@
   <text class="title" v-if="title">{{ title }}</text>
   <view class="body">
     <div class="item" :key="item.label" v-for="(item, index) in items">
-      <DescriptionItem v-bind="item" v-if="getVisible(item.visible)" />
+      <DescriptionItem v-bind="item" v-if="getVisible(item.visible, {})" />
     </div>
   </view>
 </template>
 
 <script setup lang="ts">
 import { getVisible } from '../../utils'
-import DescriptionItem from './DescriptionItem/index.vue'
-import { Item, LabelProps, ValueProps } from './type'
+import { type DescriptionItem, LabelProps, ValueProps } from './type'
 
-type Props = {
+export type { DescriptionItem, LabelProps, ValueProps }
+
+export type DescriptionProps = {
   title: string
-  items: Item[]
+  items: DescriptionItem[]
 } & ValueProps &
   LabelProps
 
-const { title, items, valueCol, labelCol } = defineProps<Props>()
+const { title, items, valueCol, labelCol } = defineProps<DescriptionProps>()
 </script>
 
 <style lang="scss" scoped>

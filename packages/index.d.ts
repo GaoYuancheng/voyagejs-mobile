@@ -1,23 +1,15 @@
-import ScrollView from "./components/ScrollView/index.vue";
-import TopFilter from "./components/TopFilter/index.vue";
-import Card from "./components/Card/index.vue";
-import RingChart from "./components/RingChart/index.vue";
-import ScrollViewPage from "./components/ScrollViewPage/index.vue";
-import StatisticCard from './components/StatisticCard/index.vue'
-import Item from './components/Item/index.vue'
-import Description from './components/Description/index.vue'
-import {mockRequest , sleep} from '../packages/utils'
+export { default as Card } from './components/Card/index.vue';
+export * from './components/Card/index.vue';
+export { default as Description } from './components/Description/index.vue';
+export * from './components/Description/index.vue';
+export { default as RingChart } from './components/RingChart/index.vue';
+export * from './components/RingChart/index.vue';
+export { default as ScrollView } from './components/ScrollView/index.vue';
+export * from './components/ScrollView/index.vue';
+export { default as ScrollViewPage } from './components/ScrollViewPage/index.vue';
+export * from './components/ScrollViewPage/index.vue';
+export { default as StatisticCard } from './components/StatisticCard/index.vue';
+export * from './components/StatisticCard/index.vue';
+export { default as TopFilter } from './components/TopFilter/index.vue';
+export * from './components/TopFilter/index.vue';
 
-
-export {
-  ScrollView,
-  TopFilter,
-  Card,
-  RingChart,
-  ScrollViewPage,
-  Description,
-  Item,
-  StatisticCard,
-  mockRequest,
-  sleep
-}
