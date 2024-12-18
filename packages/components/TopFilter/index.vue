@@ -13,6 +13,7 @@
           :key="item.name"
           @fieldChange="value => fieldChange(value, item)"
           :itemProps="item"
+          :class=" item.type === 'search' ? 'mainSearchField' : ''"
         />
       </div>
 
@@ -228,6 +229,9 @@ const submit = () => {
       display: flex;
       align-items: center;
       justify-content: center;
+      .mainSearchField{
+        width: 100%
+      }
     }
     .dropdownIcon {
       width: 44rpx;

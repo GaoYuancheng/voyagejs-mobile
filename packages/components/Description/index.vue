@@ -1,5 +1,18 @@
 <template>
-  <text class="title" v-if="title">{{ title }}</text>
+  <div class="header">
+    <div class="title" v-if="slots.title || title">
+      <slot name="title" v-if="slots.title"></slot>
+      <div class="titleText" v-else-if="title">
+        {{ title }}
+      </div>
+    </div>
+    <div class="extra" v-if="slots.extra || extra">
+      <slot name="extra" v-if="slots.extra"></slot>
+      <div class="extraText" v-else-if="extra">
+        {{ extra }}
+      </div>
+    </div>
+  </div>
   <view class="body">
     <div class="item" :key="item.label" v-for="(item, index) in items">
       <DescriptionItem v-bind="item" v-if="getVisible(item.visible, {})" />
@@ -8,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import { useSlots } from 'vue'
 import { getVisible } from '../../utils'
 import DescriptionItem from './DescriptionItem/index.vue'
 
@@ -39,15 +53,24 @@ type DescriptionItemType = {
   LabelProps
 
 type DescriptionProps = {
-  title: string
-  items: DescriptionItemType[]
+  title?: string
+  extra?: string
+  items?: DescriptionItemType[]
 } & ValueProps &
   LabelProps
 
-const { title, items, valueCol, labelCol } = defineProps<DescriptionProps>()
+const { title, items, valueCol, labelCol, extra } =
+  defineProps<DescriptionProps>()
+
+const slots = useSlots()
 </script>
 
 <style lang="scss" scoped>
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .title {
   font-size: 30rpx;
   font-weight: 400;
