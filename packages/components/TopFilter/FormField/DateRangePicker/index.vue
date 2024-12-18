@@ -29,11 +29,20 @@
 
 <script setup>
 import { computed, inject, ref, watch } from 'vue'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
 
 const showRef = ref(false)
 
-const emits = defineEmits(['fieldChange', 'change'])
+const valueRef = ref({
+  startDate: '',
+  endDate: ''
+})
+
+const change = (value) => {
+  valueRef.value = value
+  emits('change', value)
+}
+
+const emits = defineEmits(['change'])
 
 const { label, fieldProps, name } = defineProps({
   name: {
@@ -54,7 +63,7 @@ const { label, fieldProps, name } = defineProps({
   }
 })
 
-const { valueRef, change } = useFormFieldProps(name, emits)
+
 </script>
 
 <style lang="scss" scoped>

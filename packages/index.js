@@ -6,7 +6,7 @@ import ScrollViewPage from "./components/ScrollViewPage/index.vue";
 import StatisticCard from './components/StatisticCard/index.vue'
 import Item from './components/Item/index.vue'
 import Description from './components/Description/index.vue'
-import {mockRequest , sleep} from '../packages/utils'
+export * from '../packages/utils'
 
 const install = (app) => {
   app.component("ScrollView", ScrollView);
@@ -33,6 +33,4 @@ export {
   Description,
   Item,
   StatisticCard,
-  mockRequest,
-  sleep
 }

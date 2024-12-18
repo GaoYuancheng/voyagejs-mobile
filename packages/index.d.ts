@@ -12,4 +12,5 @@ export { default as StatisticCard } from './components/StatisticCard/index.vue';
 export * from './components/StatisticCard/index.vue';
 export { default as TopFilter } from './components/TopFilter/index.vue';
 export * from './components/TopFilter/index.vue';
+export * from './utils';
 

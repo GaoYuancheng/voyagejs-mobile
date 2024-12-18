@@ -15,7 +15,7 @@
           ></div>
           <span>{{ item.name }}</span>
         </div>
-        <!-- <div class="percent">{{ item.percent || 0 }}%</div> -->
+        <div class="percent">{{ item.percent || 0 }}%</div>
         <div class="legend-value">{{ item.data }}</div>
       </view>
     </view>
