@@ -10,9 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { getOptions } from '../../utils'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
 
 interface Props {
   name?: string
@@ -34,8 +33,8 @@ const valueRef = ref(props.modelValue)
 const optionsRef = ref([])
 
 const change = val => {
-  emits('update:modelValue', val[0].value, val)
-  emits('change', val[0].value, val)
+  emits('update:modelValue', val)
+  emits('change', val)
 }
 
 onMounted(async () => {

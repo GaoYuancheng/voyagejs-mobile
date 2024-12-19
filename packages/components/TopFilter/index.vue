@@ -58,15 +58,7 @@
     </div>
 
     <div class="sub" v-if="sub">
-      <u-dropdown :height="60">
-        <FormField
-          :key="item.name"
-          v-for="item in sub"
-          :itemProps="item"
-          v-model="filterRef[item.name]"
-          @change="submit"
-        />
-      </u-dropdown>
+      <Sub :sub="sub" @change="submit" />
     </div>
   </div>
 </template>
@@ -75,6 +67,7 @@
 import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
 import FormField from './FormField/index.vue'
 import Organization from './Organization/index.vue'
+import Sub from './Sub/index.vue'
 
 const cdn = 'https://cdn-zz.pinming.cn/lib/front/mobile/zz/common'
 
@@ -145,11 +138,6 @@ const filterRef = ref(structuredClone(initialValues))
 provide('filterRef', filterRef)
 
 const { mainSearch: mainSearchSlot } = useSlots()
-
-const organizationChange = (value, item) => {
-  filterRef.value[item.name] = value
-  submit()
-}
 
 const filterIconClick = () => {
   if (dropdownShowRef.value) {
