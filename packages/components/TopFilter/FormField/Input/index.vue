@@ -3,7 +3,7 @@
 
   <div class="inputArea">
     <u-input
-      v-model="modelValue"
+      v-model="inputValue"
       placeholder="请输入"
       v-bind="fieldProps"
       inputAlign="right"
@@ -12,41 +12,31 @@
   </div>
 </template>
 
-<script setup>
-import { watch, inject, ref, computed } from 'vue'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-const emits = defineEmits(['change', 'fieldChange'])
+interface Props {
+  name?: string
+  label?: string
+  placeholder?: string
+  fieldProps?: Record<string, any>
+  isDropdown?: boolean
+  modelValue?: any
+}
 
-const { label, fieldProps, name, isDropdown } = defineProps({
-  isDropdown: {
-    type: Boolean,
-    default: () => false
-  },
-  name: {
-    type: String,
-    default: () => ''
-  },
-  label: {
-    type: String,
-    default: () => ''
-  },
-  fieldProps: {
-    type: Object,
-    default: () => ({})
+const emits = defineEmits(['change', 'update:modelValue'])
+
+const { label, fieldProps, name, modelValue } = defineProps<Props>()
+
+const inputValue = ref(modelValue)
+
+watch(
+  () => inputValue.value,
+  val => {
+    emits('update:modelValue', val)
+    emits('change', val)
   }
-})
-
-const { valueRef, change } = useFormFieldProps(name, emits)
-
-const modelValue = computed({
-  get() {
-    return valueRef.value
-  },
-  set(value) {
-    change(value)
-  }
-})
+)
 </script>
 
 <style lang="scss" scoped>

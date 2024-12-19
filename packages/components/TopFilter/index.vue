@@ -11,16 +11,17 @@
           v-else
           v-for="item in mainSearch"
           :key="item.name"
-          @fieldChange="value => fieldChange(value, item)"
           :itemProps="item"
-          :class=" item.type === 'search' ? 'mainSearchField' : ''"
+          :class="item.type === 'search' ? 'mainSearchField' : ''"
+          v-model="filterRef[item.name]"
+          @change="submit"
         />
       </div>
 
-      <div v-if="organization && !isProjectModule" class="organizationIcon">
+      <div v-if="organization" class="organizationIcon">
         <Organization
+          v-model="filterRef[organization.name]"
           :itemProps="organization"
-          @change="value => organizationChange(value, organization)"
         />
       </div>
 
@@ -46,7 +47,7 @@
             v-for="item in dropdown"
             :itemProps="item"
             :isDropdown="true"
-            @fieldChange="value => dropdownFieldChange(value, item)"
+            v-model="filterRef[item.name]"
           />
           <div class="buttonArea">
             <div class="resetButton" @tap.stop="reset">重置</div>
@@ -62,7 +63,8 @@
           :key="item.name"
           v-for="item in sub"
           :itemProps="item"
-          @fieldChange="value => fieldChange(value, item)"
+          v-model="filterRef[item.name]"
+          @change="submit"
         />
       </u-dropdown>
     </div>
@@ -70,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { provide, ref, toRef, useSlots, watch } from 'vue'
+import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
 import FormField from './FormField/index.vue'
 import Organization from './Organization/index.vue'
 
@@ -137,36 +139,16 @@ const { mainSearch, sub, dropdown, organization } = filterConfig
 
 const dropdownRef = ref()
 const dropdownShowRef = ref(false)
-const filterRef = ref(initialValues)
+const filterRef = ref(structuredClone(initialValues))
 // const dropdownFilterRef = ref(getDropdownFilter())
 
 provide('filterRef', filterRef)
 
 const { mainSearch: mainSearchSlot } = useSlots()
 
-const isProjectModule = uni.$u.currentUser.isProjectModule()
-
 const organizationChange = (value, item) => {
   filterRef.value[item.name] = value
   submit()
-}
-
-const fieldChange = (value, item) => {
-  // const res = {
-  //   ...filterRef.value,
-  //   [item.name]: value
-  // }
-  // filterRef.value = res
-  submit()
-}
-
-const dropdownFieldChange = (value, item) => {
-  // const res = {
-  //   ...filterRef.value,
-  //   [item.name]: value
-  // }
-  filterRef.value[item.name] = value
-  // dropdownFilterRef.value[item.name] = value
 }
 
 const filterIconClick = () => {
@@ -209,6 +191,10 @@ const submit = () => {
   console.log('submit ~ change:')
   emits('change', { ...filterRef.value })
 }
+
+const dropdownNames = computed(() => {
+  return (dropdown || []).map(item => item.name)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -229,8 +215,8 @@ const submit = () => {
       display: flex;
       align-items: center;
       justify-content: center;
-      .mainSearchField{
-        width: 100%
+      .mainSearchField {
+        width: 100%;
       }
     }
     .dropdownIcon {

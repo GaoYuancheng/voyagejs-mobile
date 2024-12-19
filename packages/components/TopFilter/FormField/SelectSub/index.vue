@@ -3,53 +3,40 @@
     :key="name"
     :options="optionsRef"
     :title="label"
-    v-model="modelValue"
+    v-model="valueRef"
     @change="change"
   >
   </u-dropdown-item>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { getOptions } from '../../utils'
 import useFormFieldProps from '../../hooks/useFormFieldProps'
 
-const emits = defineEmits(['fieldChange', 'change'])
-const props = defineProps({
-  label: {
-    type: String,
-    default: () => ''
-  },
-  name: {
-    type: String,
-    default: () => ''
-  },
-  valueEnum: {
-    type: Object,
-    default: undefined
-  },
-  options: {
-    type: Array,
-    default: undefined
-  },
-  request: {
-    type: Function,
-    default: undefined
-  }
-})
-const { name, valueEnum, options, request } = props
+interface Props {
+  name?: string
+  label?: string
+  placeholder?: string
+  fieldProps?: Record<string, any>
+  isDropdown?: boolean
+  modelValue?: any
+  valueEnum?: Record<string, any>
+  options?: Array<any>
+  request?: Function
+}
 
-const { valueRef, change } = useFormFieldProps(name, emits)
+const emits = defineEmits(['update:modelValue', 'change'])
+const props = defineProps<Props>()
+const { name, label, options, request } = props
 
-const modelValue = computed({
-  get() {
-    return valueRef.value
-  },
-  set(value) {
-    change(value)
-  }
-})
+const valueRef = ref(props.modelValue)
 const optionsRef = ref([])
+
+const change = val => {
+  emits('update:modelValue', val[0].value, val)
+  emits('change', val[0].value, val)
+}
 
 onMounted(async () => {
   optionsRef.value = await getOptions(props)

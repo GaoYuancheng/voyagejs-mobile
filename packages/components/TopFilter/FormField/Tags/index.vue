@@ -6,7 +6,7 @@
     <div
       class="tag"
       @click="change(item.value)"
-      :class="valueRef === item.value ? 'selected' : ''"
+      :class="modelValue === item.value ? 'selected' : ''"
       v-for="item in options"
       :key="item.value"
     >
@@ -15,34 +15,29 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch, ref, computed } from 'vue'
 import useFormFieldProps from '../../hooks/useFormFieldProps'
 
-const emits = defineEmits(['fieldChange', 'change'])
+const emits = defineEmits(['fieldChange', 'change', 'update:modelValue'])
 
-const { label, fieldProps, name } = defineProps({
-  name: {
-    type: String,
-    default: () => ''
-  },
-  label: {
-    type: String,
-    default: () => ''
-  },
-  fieldProps: {
-    type: Object,
-    default: () => ({})
-  },
-  isDropdown: {
-    type: Boolean,
-    default: true
-  }
-})
+interface Props {
+  name?: string
+  label?: string
+  fieldProps?: Record<string, any>
+  isDropdown?: boolean
+  modelValue?: any
+}
 
+const { label, fieldProps = {}, modelValue } = defineProps<Props>()
 const { options } = fieldProps
 
-const { valueRef, change } = useFormFieldProps(name, emits)
+const change = (value) => {
+  emits('update:modelValue', value)
+  emits('change', value)
+}
+
+
 </script>
 
 <style lang="scss" scoped>

@@ -4,7 +4,7 @@
   <div class="searchArea" @click="showRef = true">
     <div class="text">
       <span v-if="!isDropdown">{{ label }}</span>
-      <span v-else-if="valueRef">{{ inputValue }}</span>
+      <span v-else-if="inputValue">{{ inputValue }}</span>
       <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
       <u-icon class="icon" name="arrow-down"></u-icon>
     </div>
@@ -15,57 +15,28 @@
   </Teleport>
 </template>
 
-<script setup>
-import { computed, inject, onMounted, ref, Teleport, watch } from 'vue'
-import { getOptions } from '../../utils'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
+<script setup lang="ts">
+import { computed, ref, Teleport } from 'vue'
 
-const emits = defineEmits(['fieldChange', 'change'])
+interface Props {
+  name?: string
+  label?: string
+  placeholder?: string
+  fieldProps?: Record<string, any>
+  isDropdown?: boolean
+  modelValue?: any
+}
 
-const props = defineProps({
-  name: {
-    type: String,
-    default: () => ''
-  },
-  label: {
-    type: String,
-    default: () => ''
-  },
-  placeholder: {
-    type: String,
-    default: () => ''
-  },
-  valueEnum: {
-    type: Object,
-    default: undefined
-  },
-  options: {
-    type: Array,
-    default: undefined
-  },
-  request: {
-    type: Function,
-    default: undefined
-  },
-  fieldProps: {
-    type: Object,
-    default: () => ({})
-  },
-  isDropdown: {
-    type: Boolean,
-    default: false
-  }
-})
+const emits = defineEmits(['change', 'update:modelValue'])
 
-const { label, fieldProps, name, isDropdown } = props
-
-const optionsRef = ref([])
+const props = defineProps<Props>()
+const { placeholder, isDropdown, label, fieldProps } = props
 
 const showRef = ref(false)
 
 const inputValue = computed(() => {
-  if (!valueRef.value) return ''
-  const { year, month, day } = valueRef.value
+  if (!props.modelValue) return ''
+  const { year, month, day } = props.modelValue
   let res = ''
   if (year) res += year
   if (month) res += `-${month}`
@@ -74,15 +45,9 @@ const inputValue = computed(() => {
 })
 
 const confirm = val => {
-  console.log('confirm ~ val:', val)
-  change(val)
+  emits('update:modelValue', val)
+  emits('change', val)
 }
-
-const { valueRef, change } = useFormFieldProps(name, emits)
-
-onMounted(async () => {
-  optionsRef.value = await getOptions(props)
-})
 </script>
 
 <style lang="scss" scoped>

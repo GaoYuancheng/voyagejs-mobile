@@ -1,5 +1,5 @@
 <template>
-  <div v-if="props.show">
+  <div v-if="show">
     <u-image
       width="44rpx"
       height="44rpx"
@@ -18,25 +18,24 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, Teleport } from 'vue'
+interface Props {
+  show?: boolean
+  itemProps?: Record<string, any>
+  modelValue?: any
+}
 
-const emits = defineEmits(['change'])
-const props = defineProps({
-  show: {
-    type: Boolean,
-    default: true
-  },
-  itemProps: {
-    type: Object,
-    default: () => ({})
-  }
+const emits = defineEmits(['change', 'update:modelValue'])
+const props = withDefaults(defineProps<Props>(), {
+  show: true
 })
-const { itemProps } = props
+const { itemProps = {}, show = true } = props
 const { fieldProps } = itemProps
 const organizationPopShow = ref(false)
 
 const itemClick = item => {
+  emits('update:modelValue', item)
   emits('change', item)
 }
 </script>

@@ -4,12 +4,12 @@
   </div>
 
   <div class="searchArea" @click="showRef = true">
-    <span class="valueText" :class="valueRef?.startDate ? '' : 'placeholder'">
-      {{ valueRef?.startDate ?? '开始时间' }}
+    <span class="valueText" :class="modelValue?.startDate ? '' : 'placeholder'">
+      {{ modelValue?.startDate ?? '开始时间' }}
     </span>
     <span class="'placeholder">~</span>
-    <span class="valueText" :class="valueRef?.endDate ? '' : 'placeholder'">
-      {{ valueRef?.endDate ?? '结束时间' }}
+    <span class="valueText" :class="modelValue?.endDate ? '' : 'placeholder'">
+      {{ modelValue?.endDate ?? '结束时间' }}
     </span>
     <span>
       <u-icon class="icon" name="arrow-down"></u-icon>
@@ -27,43 +27,25 @@
   </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, inject, ref, watch } from 'vue'
+interface Props {
+  name?: string
+  label?: string
+  fieldProps?: Record<string, any>
+  isDropdown?: boolean
+  modelValue?: any
+}
 
 const showRef = ref(false)
 
-const valueRef = ref({
-  startDate: '',
-  endDate: ''
-})
-
-const change = (value) => {
-  valueRef.value = value
+const emits = defineEmits(['change', 'update:modelValue'])
+const change = value => {
+  emits('update:modelValue', value)
   emits('change', value)
 }
 
-const emits = defineEmits(['change'])
-
-const { label, fieldProps, name } = defineProps({
-  name: {
-    type: String,
-    default: () => ''
-  },
-  label: {
-    type: String,
-    default: () => ''
-  },
-  fieldProps: {
-    type: Object,
-    default: () => ({})
-  },
-  isDropdown: {
-    type: Boolean,
-    default: true
-  }
-})
-
-
+const { label, fieldProps, name, modelValue } = defineProps<Props>()
 </script>
 
 <style lang="scss" scoped>

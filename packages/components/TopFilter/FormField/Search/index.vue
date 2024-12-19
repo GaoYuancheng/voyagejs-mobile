@@ -7,27 +7,19 @@
   />
 </template>
 
-<script setup>
-import { watch, ref } from 'vue'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
+<script setup lang="ts">
+interface Props {
+  fieldProps?: Record<string, any>
+  modelValue?: any
+}
 
-const emits = defineEmits(['fieldChange', 'change'])
-const { label, name, fieldProps } = defineProps({
-  name: {
-    type: String,
-    default: () => ''
-  },
-  label: {
-    type: String,
-    default: () => ''
-  },
-  fieldProps: {
-    type: Object,
-    default: () => ({})
-  }
-})
+const emits = defineEmits(['change', 'update:modelValue'])
+const { fieldProps } = defineProps<Props>()
 
-const { valueRef, change } = useFormFieldProps(name, emits)
+const change = value => {
+  emits('update:modelValue', value)
+  emits('change', value)
+}
 </script>
 
 <style lang="scss" scoped></style>

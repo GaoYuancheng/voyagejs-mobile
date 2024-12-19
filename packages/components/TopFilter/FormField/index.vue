@@ -14,9 +14,11 @@
       v-on="resFieldEvents"
     />
 
-    <template v-if="type === 'dateRange'">
-      <DateRangePicker v-bind="fieldProps" v-on="resFieldEvents" />
-    </template>
+    <DateRangePicker
+      v-if="type === 'dateRange'"
+      v-bind="fieldProps"
+      v-on="resFieldEvents"
+    />
 
     <Member
       v-if="type === 'member'"
@@ -56,15 +58,12 @@ import Organization from './Organization/index.vue'
 import Search from './Search/index.vue'
 import Tags from './Tags/index.vue'
 import Picker from './Picker/index.vue'
-import { ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 
-const emits = defineEmits(['fieldChange'])
+const emits = defineEmits(['fieldChange', 'update:modelValue', 'change'])
+const filterRef = inject('filterRef')
 
-const { itemProps, isDropdown, show } = defineProps({
-  type: {
-    type: String,
-    default: 'input'
-  },
+const props = defineProps({
   show: {
     type: Boolean,
     default: () => true
@@ -76,21 +75,34 @@ const { itemProps, isDropdown, show } = defineProps({
   isDropdown: {
     type: Boolean,
     default: false
+  },
+  modelValue: {
+    type: [String, Number, Array, Object],
+    default: ''
   }
 })
 
-const { fieldEvents = {}, type, ...restProps } = itemProps
+const { itemProps, isDropdown, show } = props
+
+const { fieldEvents = {}, type = 'input', ...restProps } = itemProps
 console.log('type:', type)
 
 const resFieldEvents = {
   ...fieldEvents,
-  fieldChange: value => emits('fieldChange', value)
+  change: value => {
+    emits('change', value)
+    fieldEvents?.change?.(value, filterRef)
+  },
+  'update:modelValue': value => emits('update:modelValue', value)
 }
 
-const fieldProps = {
-  ...restProps,
-  isDropdown
-}
+const fieldProps = computed(() => {
+  return {
+    ...restProps,
+    isDropdown,
+    modelValue: props.modelValue
+  }
+})
 
 // defineExpose({
 //   reset: () => {
