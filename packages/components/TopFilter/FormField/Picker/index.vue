@@ -2,16 +2,19 @@
   <div class="label" v-if="isDropdown">{{ label }}</div>
 
   <div class="searchArea" @click="showRef = true">
-    <div class="text">
-      <span v-if="!isDropdown">{{ label }}</span>
-      <span v-else-if="inputValue">{{ inputValue }}</span>
-      <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
-      <u-icon class="icon" name="arrow-down"></u-icon>
-    </div>
+    <span v-if="!isDropdown">{{ label }}</span>
+    <span v-else-if="showInfo.showText">{{ showInfo.showText }}</span>
+    <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
+    <u-icon v-if="showIcon" class="icon" name="arrow-down"></u-icon>
   </div>
 
   <Teleport to="body">
-    <u-picker v-model="showRef" @confirm="confirm" v-bind="fieldProps" />
+    <u-picker
+      v-model="showRef"
+      @confirm="confirm"
+      v-bind="fieldProps"
+      :defaultTime="showInfo.defaultTime"
+    />
   </Teleport>
 </template>
 
@@ -26,19 +29,22 @@ interface Props {
   fieldProps?: Record<string, any>
   isDropdown?: boolean
   modelValue?: any
+  showIcon?: boolean
 }
 
 const emits = defineEmits(['change', 'update:modelValue'])
 
-const props = defineProps<Props>()
-const { placeholder, isDropdown, label, fieldProps } = props
+const props = withDefaults(defineProps<Props>(), {
+  showIcon: true
+})
+const { placeholder, isDropdown, label, fieldProps, showIcon } = props
 
 const showRef = ref(false)
 
-const inputValue = computed(() => {
-  if (!props.modelValue) return ''
+const showInfo = computed(() => {
+  if (!props.modelValue) return {}
   return formatPickerTimeValue(props.modelValue)
-})
+}) as any
 
 const confirm = val => {
   emits('update:modelValue', val)

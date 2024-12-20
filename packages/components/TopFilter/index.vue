@@ -176,7 +176,6 @@ const reset = () => {
 // 点击确定
 // dropdown外选择
 const submit = () => {
-  console.log('submit ~ change:')
   emits('change', { ...filterRef.value })
 }
 

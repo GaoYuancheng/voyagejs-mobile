@@ -16,11 +16,21 @@ export const getOptions = async config => {
 }
 
 export const formatPickerTimeValue = value => {
-  if (!value) return ''
+  if (!value) return {}
+  let res = {
+    defaultTime: undefined,
+    showText: undefined
+  }
   const { year, month, day } = value
-  let res = ''
-  if (year) res += year
-  if (month) res += `-${month}`
-  if (day) res += `-${day}`
+
+  if (year && month && day) {
+    res.defaultTime = res.showText = `${year}-${month}-${day}`
+  } else if (year && month) {
+    res.defaultTime = res.showText = `${year}-${month}`
+  } else if (year) {
+    res.defaultTime = `${year}-01`
+    res.showText = `${year}`
+  }
+
   return res
 }

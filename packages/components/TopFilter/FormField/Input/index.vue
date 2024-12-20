@@ -26,9 +26,10 @@ interface Props {
 
 const emits = defineEmits(['change', 'update:modelValue'])
 
-const { label, fieldProps, name, modelValue } = defineProps<Props>()
+const props = defineProps<Props>()
+const { label, fieldProps, name } = props
 
-const inputValue = ref(modelValue)
+const inputValue = ref(props.modelValue)
 
 watch(
   () => inputValue.value,

@@ -39,8 +39,15 @@
     />
 
     <Tags v-if="type === 'tags'" v-bind="fieldProps" v-on="resFieldEvents" />
+
     <Picker
       v-if="type === 'picker'"
+      v-bind="fieldProps"
+      v-on="resFieldEvents"
+    />
+
+    <PickerRange
+      v-if="type === 'pickerRange'"
       v-bind="fieldProps"
       v-on="resFieldEvents"
     />
@@ -58,6 +65,7 @@ import Organization from './Organization/index.vue'
 import Search from './Search/index.vue'
 import Tags from './Tags/index.vue'
 import Picker from './Picker/index.vue'
+import PickerRange from './PickerRange/index.vue'
 import { computed, inject, ref } from 'vue'
 
 const emits = defineEmits(['fieldChange', 'update:modelValue', 'change'])

@@ -66,7 +66,7 @@ const open = index => {
     popInfo.value.picker.show = true
     popInfo.value.picker.fieldProps = {
       ...fieldProps,
-      defaultTime: formatPickerTimeValue(filterRef.value[name])
+      defaultTime: formatPickerTimeValue(filterRef.value[name]).defaultTime
     }
   }
 }

@@ -32,14 +32,14 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 
-type  PageInfo ={
+type PageInfo = {
   pageNum: number
   pageSize: number
   pages?: number
   total?: number
 }
 
- interface ScrollViewProps {
+interface ScrollViewProps {
   /** 高度 */
   height?: string
   /** 行key */
@@ -64,7 +64,7 @@ type  PageInfo ={
 
 const props = defineProps<ScrollViewProps>()
 
-const { options, request, params = {}, rowKey = 'id' } = props
+const { options, request, rowKey = 'id' } = props
 const { defaultPageSize = 10 } = options || {}
 
 const triggered = ref(false)
@@ -133,7 +133,7 @@ const scrolltolower = async () => {
 }
 
 watch(
-  () => params,
+  () => props.params,
   newValue => {
     getList(1, newValue)
   },

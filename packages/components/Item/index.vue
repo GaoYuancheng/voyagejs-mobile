@@ -77,6 +77,7 @@ const { iconColor } = badgeProps
 <style lang="scss" scoped>
 .tag {
   padding: 6rpx 12rpx;
+  border-radius: 8rpx;
 }
 .badge {
   display: flex;
