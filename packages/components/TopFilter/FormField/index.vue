@@ -93,13 +93,13 @@ const props = defineProps({
 const { itemProps, isDropdown, show } = props
 
 const { fieldEvents = {}, type = 'input', ...restProps } = itemProps
-console.log('type:', type)
 
 const resFieldEvents = {
   ...fieldEvents,
   change: value => {
-    emits('change', value)
+    // 这里要先触发 onChange 可能在change中会有filter值的变更 在更新数据
     fieldEvents?.change?.(value, filterRef)
+    emits('change', value)
   },
   'update:modelValue': value => emits('update:modelValue', value)
 }

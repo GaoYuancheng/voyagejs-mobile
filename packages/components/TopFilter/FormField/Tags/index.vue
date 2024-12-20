@@ -32,12 +32,10 @@ interface Props {
 const { label, fieldProps = {}, modelValue } = defineProps<Props>()
 const { options } = fieldProps
 
-const change = (value) => {
+const change = value => {
   emits('update:modelValue', value)
   emits('change', value)
 }
-
-
 </script>
 
 <style lang="scss" scoped>
