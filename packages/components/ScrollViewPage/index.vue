@@ -7,7 +7,6 @@
     ></TopFilter>
 
     <slot name="header"></slot>
-    {{ filterRef }}
 
     <ScrollView
       ref="scrollViewRef"
