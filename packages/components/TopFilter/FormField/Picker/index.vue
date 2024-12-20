@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { computed, ref, Teleport } from 'vue'
+import { formatPickerTimeValue } from '../../utils'
 
 interface Props {
   name?: string
@@ -36,12 +37,7 @@ const showRef = ref(false)
 
 const inputValue = computed(() => {
   if (!props.modelValue) return ''
-  const { year, month, day } = props.modelValue
-  let res = ''
-  if (year) res += year
-  if (month) res += `-${month}`
-  if (day) res += `-${day}`
-  return res
+  return formatPickerTimeValue(props.modelValue)
 })
 
 const confirm = val => {

@@ -14,3 +14,13 @@ export const getOptions = async config => {
     return res
   }
 }
+
+export const formatPickerTimeValue = value => {
+  if (!value) return ''
+  const { year, month, day } = value
+  let res = ''
+  if (year) res += year
+  if (month) res += `-${month}`
+  if (day) res += `-${day}`
+  return res
+}

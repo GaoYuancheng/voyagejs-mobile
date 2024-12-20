@@ -16,6 +16,7 @@
     </template>
   </u-dropdown>
 
+  <!-- 全部sub picker 用一只 u-picker -->
   <Teleport to="body">
     <u-picker
       v-model="popInfo.picker.show"
@@ -28,6 +29,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue'
 import SelectSub from '../FormField/SelectSub/index.vue'
+import { formatPickerTimeValue } from '../utils'
 
 const filterRef = inject<any>('filterRef')
 
@@ -57,12 +59,15 @@ const change = value => {
 
 const open = index => {
   const item = props.sub[index]
-  const { type, fieldProps } = item
+  const { type, fieldProps, name } = item
   currentItem = item
   if (type === 'picker') {
     close()
     popInfo.value.picker.show = true
-    popInfo.value.picker.fieldProps = fieldProps
+    popInfo.value.picker.fieldProps = {
+      ...fieldProps,
+      defaultTime: formatPickerTimeValue(filterRef.value[name])
+    }
   }
 }
 

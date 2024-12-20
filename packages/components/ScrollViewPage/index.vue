@@ -6,6 +6,8 @@
       v-bind="filterProps"
     ></TopFilter>
 
+    <slot name="header"></slot>
+
     <ScrollView
       ref="scrollViewRef"
       :params="filterRef"
