@@ -22,6 +22,7 @@
         <Organization
           v-model="filterRef[organization.name]"
           :itemProps="organization"
+          @change="submit"
         />
       </div>
 
