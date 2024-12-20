@@ -105,7 +105,7 @@ const getPropsFromOptions = (data, item) => {
     text:
       typeof text === 'function'
         ? text(data, obj)
-        : obj.label || data[valueKey] || text,
+        : obj.label ?? data[valueKey] ?? text,
     onClick: () => {
       item.onClick?.(data, obj)
     }
