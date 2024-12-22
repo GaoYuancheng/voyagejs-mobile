@@ -16,8 +16,23 @@
     @scrolltolower="scrolltolower"
     :refresher-triggered="triggered"
   >
-    <view v-for="(item, index) in list || []" :key="item[rowKey]">
-      <slot :item="item">无内容</slot>
+    <view
+      v-for="(item, index) in list || []"
+      :key="item[rowKey]"
+      class="scrollViewItem"
+    >
+      <div class="itemContent">
+        <div class="selectArea" v-if="rowSelection || selectedKeys">
+          <u-checkbox
+            :modelValue="(selectedKeys || []).includes(item[rowKey])"
+            @update:modelValue="value => onSelect(value, item)"
+          ></u-checkbox>
+        </div>
+        <div class="content">
+          <slot :item="item">无内容</slot>
+        </div>
+      </div>
+
       <!-- 只能放里面 放外面布局会有问题 -->
       <u-loadmore
         @click="scrolltolower"
@@ -39,9 +54,9 @@ type PageInfo = {
   total?: number
 }
 
-interface ScrollViewProps {
+export interface ScrollViewProps {
   /** 高度 */
-  height: string
+  height?: string
   /** 行key */
   rowKey?: string
   /* 请求   */
@@ -60,13 +75,25 @@ interface ScrollViewProps {
     /*  默认分页size */
     defaultPageSize: PageInfo['pageSize']
   }
+  /** 开启选中 pageNum 为 1 的时候会清空选中 */
+  rowSelection?: {
+    /**单选 多选 默认多选 */
+    type: 'single' | 'multiple'
+    onChange?: (selectedRowKeys: any, selectedRows: any) => void
+  }
+  /** v-model:selectedKeys 选中的值 */
+  selectedKeys?: any[]
 }
 
 const props = defineProps<ScrollViewProps>()
+const selectedKeys = defineModel('selectedKeys')
 
-const { options, request, rowKey = 'id', height } = props
+const { options, request, rowKey = 'id', height, rowSelection } = props
 const { defaultPageSize = 10 } = options || {}
+const { type = 'multiple', onChange: selectKeysOnChange } = rowSelection || {}
 
+// 选中的行信息
+const selectKeysInfo = ref<any>([])
 const triggered = ref(false)
 const status = ref('loadmore')
 const list = ref<any[]>([])
@@ -78,6 +105,26 @@ const pageInfo = ref<PageInfo>({
 })
 
 const loading = status.value === 'loading'
+
+/** 选中相关 */
+const onSelect = (checked, item) => {
+  // 多选
+  if (type === 'multiple') {
+    selectKeysInfo.value = checked
+      ? [...selectKeysInfo.value, item]
+      : selectKeysInfo.value.filter(item1 => item1[rowKey] !== item[rowKey])
+  } else if (type === 'single') {
+    // 单选
+    selectKeysInfo.value = checked ? [item] : []
+  }
+}
+
+// 清空选中
+const clearSelected = () => {
+  selectKeysInfo.value = undefined
+}
+
+/** 分页请求 */
 
 const getList = async (pageNum: PageInfo['pageNum'], params?: any) => {
   uni.showLoading({
@@ -106,6 +153,11 @@ const getList = async (pageNum: PageInfo['pageNum'], params?: any) => {
       total: res?.total
     }
   } finally {
+    // 请求第一页时清空选中
+    if (pageInfo.value.pageNum === 1) {
+      clearSelected()
+    }
+
     if (list.value.length === pageInfo.value.total) {
       status.value = 'nomore'
     } else {
@@ -132,6 +184,7 @@ const scrolltolower = async () => {
   }
 }
 
+// 监听参数变化
 watch(
   () => props.params,
   newValue => {
@@ -143,15 +196,46 @@ watch(
   }
 )
 
+// 选中值变化
+watch(
+  () => selectKeysInfo.value,
+  () => {
+    selectedKeys.value = selectKeysInfo.value.map(item => item[rowKey])
+    selectKeysOnChange?.(selectedKeys.value, selectKeysInfo.value)
+  }
+)
+
 defineExpose({
   refresh: () => getList(1),
   refreshWithParams: () => getList(1, props.params),
-  getList
+  clearSelected
 })
 </script>
 
 <style lang="scss" scoped>
 .scrollView {
   box-sizing: border-box;
+  .scrollViewItem {
+    .itemContent {
+      .selectArea {
+        display: flex;
+        align-items: center;
+        padding-right: 16rpx;
+
+        :deep(.u-checkbox) {
+          background-color: #fff;
+        }
+
+        :deep(.u-checkbox__label) {
+          margin-right: 0;
+          margin-left: 0;
+        }
+      }
+      display: flex;
+      .content {
+        flex: 1;
+      }
+    }
+  }
 }
 </style>

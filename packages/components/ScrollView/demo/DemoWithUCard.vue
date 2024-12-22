@@ -7,7 +7,12 @@
         @custom="search"
       ></u-search>
     </div>
+
+    <div>
+      {{ selectedKeys }}
+    </div>
     <ScrollView
+      v-model:selectedKeys="selectedKeys"
       ref="scrollViewRef"
       :params="filter"
       :request="getData"
@@ -15,11 +20,7 @@
       class="scrollView"
       rowKey="date"
     >
-      <u-card
-        :title="`${slotProps.item.date}`"
-        :border="false"
-        class="cardItem"
-      >
+      <Card :title="`${slotProps.item.date}`" :border="false" class="cardItem">
         <template #body>
           <div class="info" v-for="item in cardItemInfoList">
             <div class="label">{{ item.label }}</div>
@@ -34,16 +35,17 @@
             <div class="refreshBtn" @click="deleteItem">点击后刷新列表</div>
           </div>
         </template>
-      </u-card>
+      </Card>
     </ScrollView>
   </u-page>
 </template>
 
 <script setup>
-import ScrollView from '@/components/ScrollView';
-import { ref } from 'vue';
+import { Card, ScrollView } from 'voyagejs-mobile'
+import { ref } from 'vue'
 
-const scrollViewRef = ref();
+const scrollViewRef = ref()
+const selectedKeys = ref([])
 
 const mockData = {
   success: true,
@@ -60,7 +62,7 @@ const mockData = {
         dutyManager: '1',
         dutyMember: '1',
         dutyPhone: '1',
-        dutyRoomPhone: '1',
+        dutyRoomPhone: '1'
       },
       {
         id: 9413,
@@ -72,7 +74,7 @@ const mockData = {
         dutyManager: '1',
         dutyMember: '1',
         dutyPhone: '1',
-        dutyRoomPhone: '1',
+        dutyRoomPhone: '1'
       },
       {
         id: 9414,
@@ -84,7 +86,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9415,
@@ -96,7 +98,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9416,
@@ -108,7 +110,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9417,
@@ -120,7 +122,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9418,
@@ -132,7 +134,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9419,
@@ -144,7 +146,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9420,
@@ -156,7 +158,7 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
+        dutyRoomPhone: null
       },
       {
         id: 9421,
@@ -168,8 +170,8 @@ const mockData = {
         dutyManager: null,
         dutyMember: null,
         dutyPhone: null,
-        dutyRoomPhone: null,
-      },
+        dutyRoomPhone: null
+      }
     ],
     pageNum: 1,
     pageSize: 10,
@@ -186,54 +188,54 @@ const mockData = {
     navigatePages: 8,
     navigatepageNums: [1, 2, 3],
     navigateFirstPage: 1,
-    navigateLastPage: 3,
-  },
-};
+    navigateLastPage: 3
+  }
+}
 
 const cardItemInfoList = [
   {
     label: '值班部门：',
-    valueKey: 'dutyDept',
+    valueKey: 'dutyDept'
   },
   {
     label: '部门负责人：',
-    valueKey: 'dutyManager',
+    valueKey: 'dutyManager'
   },
   {
     label: '值班人员：',
-    valueKey: 'dutyMember',
+    valueKey: 'dutyMember'
   },
   {
     label: '联系电话：',
-    valueKey: 'dutyPhone',
+    valueKey: 'dutyPhone'
   },
   {
     label: '总部值班电话：',
-    valueKey: 'dutyRoomPhone',
-  },
-];
+    valueKey: 'dutyRoomPhone'
+  }
+]
 
-const filter = ref({});
+const filter = ref({})
 
 const deleteItem = () => {
-  scrollViewRef.value.refresh();
-};
+  scrollViewRef.value.refresh()
+}
 
-const search = (value) => {
-  filter.value.search = value;
-};
+const search = value => {
+  filter.value.search = value
+}
 
 const getData = async ({ pageNum, pageSize }, params) => {
-  const res = mockData;
-  return new Promise((resolve) => {
+  const res = mockData
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve({
         dataList: res?.data?.list || [],
         total: res?.data?.total || 0,
-        pages: res?.data?.pages,
-      });
-    }, 1500);
-  });
+        pages: res?.data?.pages
+      })
+    }, 1500)
+  })
   // const res = mockData
   // // 可以在这里格式化数据
   // return {
@@ -241,7 +243,7 @@ const getData = async ({ pageNum, pageSize }, params) => {
   //   total: res?.data?.total || 0,
   //   pages: res?.data?.pages
   // }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -254,7 +256,6 @@ const getData = async ({ pageNum, pageSize }, params) => {
   }
 
   .scrollView {
-    padding: 24rpx;
     flex: 1;
     .cardItem {
       // background-color: #fff;

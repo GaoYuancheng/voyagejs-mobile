@@ -33,8 +33,6 @@ interface Props {
 const props = defineProps<Props>()
 
 const opts = computed(() => {
-  console.log('chartData-----:', props.chartData)
-
   return {
     type: 'ring',
     // color: ['#2478FF', '#FFCD00', '#49C292'],

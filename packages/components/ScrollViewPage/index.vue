@@ -13,7 +13,7 @@
       :params="filterRef"
       :request="request"
       v-slot="slotProps"
-      rowKey="date"
+      rowKey="id"
       v-bind="scrollViewProps"
     >
       <slot></slot>
@@ -69,30 +69,54 @@ import TopFilter from '../TopFilter//index.vue'
 import ScrollView from '../ScrollView/index.vue'
 import Card from '../Card/index.vue'
 import Item from '../Item/index.vue'
-import { ref, useSlots } from 'vue'
+import { CSSProperties, ref, useSlots } from 'vue'
 import { getVisible } from '../../utils'
 
 const slots = useSlots()
 
-const { filterProps, request, cardConfig, scrollViewProps } = defineProps({
-  filterProps: {
-    type: Object,
-    default: () => ({})
-  },
-  request: {
-    type: Function,
-    default: () => {}
-  },
-  scrollViewProps: {
-    type: Object,
-    default: () => ({})
-  },
-  cardConfig: {
-    type: Object,
-    default: () => ({})
+import { TopFilterProps } from '../TopFilter/index.vue'
+import { ScrollViewProps } from '../ScrollView/index.vue'
+
+export type Item = {
+  type: 'tag' | 'text' | 'badge'
+  label: string
+  valueKey: string
+  visible: boolean | ((data: any) => boolean)
+  options: {
+    label?: string
+    value?: string
+    style?: CSSProperties
+    badgeProps?: Record<string, any>
+  }[]
+  text?: string | ((data: any, obj: any) => string)
+  onClick?: (data: any, item: any) => void
+}
+
+interface CardConfig {
+  header?: {
+    titleList?: Item[]
+    extraList?: Item[]
   }
-})
-const { body = {}, header = {}, footer = {} } = cardConfig
+  body?: {
+    list?: Item[]
+  }
+  footer: {
+    list?: Item[]
+  }
+}
+
+export interface ScrollViewPageProps {
+  /** 头部筛选 同 TopFilter */
+  filterProps?: TopFilterProps
+  /** 列表请求 同 scrollList request */
+  request: ScrollViewProps['request']
+  cardConfig?: CardConfig
+  scrollViewProps?: ScrollViewProps
+}
+
+const { filterProps, request, cardConfig, scrollViewProps } =
+  defineProps<ScrollViewPageProps>()
+const { body = {}, header = {}, footer = {} } = cardConfig || {}
 
 const { list: bodyList = [] } = body
 const { titleList = [], extraList = [] } = header

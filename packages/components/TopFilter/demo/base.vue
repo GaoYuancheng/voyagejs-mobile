@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { TopFilter } from 'voyagejs-mobile'
+import { ref, watch } from 'vue'
+import { TopFilter, TopFilterProps } from 'voyagejs-mobile'
 
 const initialValues = {
   programmeGrade11: '2',
@@ -28,7 +28,12 @@ const filterRefClick = () => {
   console.log(filterOutRef.value)
 }
 
-const filterConfig = {
+const filterChange = value => {
+  console.log('filterChange ~ value:', value)
+  filterOutRef.value = value
+}
+
+const filterConfig: TopFilterProps['filterConfig'] = {
   organization: {
     name: 'organizationInfo',
     fieldProps: {
@@ -41,58 +46,130 @@ const filterConfig = {
       isSearch: true
     }
   },
-  mainSearch: [
-    // {
-    //   type: 'tags',
-    //   name: 'tags',
-    //   fieldEvents: {
-    //     change: (value, filterRef) => {
-    //       if (value === 'year') {
-    //         filterRef.value.dateRange = {
-    //           startDate: '2022-01-01',
-    //           endDate: '2022-12-31'
-    //         }
-    //       }
-    //     }
-    //   },
-    //   fieldProps: {
-    //     options: [
-    //       {
-    //         label: '本年',
-    //         value: 'year'
-    //       },
-    //       {
-    //         label: '本季',
-    //         value: 'quarter'
-    //       },
-    //       {
-    //         label: '本月',
-    //         value: 'month'
-    //       }
-    //     ]
-    //   }
-    // }
-    {
-      name: 'picker',
-      type: 'picker',
-      label: 'picker',
-      fieldProps: {
-        params: {
-          year: true,
-          month: true,
-          day: true,
-          hour: false,
-          minute: false,
-          second: false,
-          province: true,
-          city: true,
-          area: true,
-          timestamp: true
+  mainSearch: {
+    style: {
+      justifyContent: 'start'
+    },
+    list: [
+      {
+        type: 'tags',
+        name: 'tags',
+        visible: false,
+        fieldEvents: {
+          change: (value, filterRef) => {
+            if (value === 'year') {
+              filterRef.value.dateRange = {
+                startDate: '2022-01-01',
+                endDate: '2022-12-31'
+              }
+            }
+          }
+        },
+        fieldProps: {
+          options: [
+            {
+              label: '本年',
+              value: 'year'
+            },
+            {
+              label: '本季',
+              value: 'quarter'
+            },
+            {
+              label: '本月',
+              value: 'month'
+            }
+          ]
         }
       }
-    }
-  ],
+      // {
+      //   name: 'search',
+      //   type: 'search',
+      //   label: 'search'
+      // }
+      // {
+      //   name: 'picker',
+      //   type: 'picker',
+      //   label: 'picker',
+      //   fieldProps: {
+      //     params: {
+      //       year: true,
+      //       month: true,
+      //       day: true,
+      //       hour: false,
+      //       minute: false,
+      //       second: false,
+      //       province: true,
+      //       city: true,
+      //       area: true,
+      //       timestamp: true
+      //     }
+      //   }
+      // }
+    ]
+  },
+  // mainSearch: [
+  //   // {
+  //   //   type: 'tags',
+  //   //   name: 'tags',
+  //   //   fieldEvents: {
+  //   //     change: (value, filterRef) => {
+  //   //       if (value === 'year') {
+  //   //         filterRef.value.dateRange = {
+  //   //           startDate: '2022-01-01',
+  //   //           endDate: '2022-12-31'
+  //   //         }
+  //   //       }
+  //   //     }
+  //   //   },
+  //   //   fieldProps: {
+  //   //     options: [
+  //   //       {
+  //   //         label: '本年',
+  //   //         value: 'year'
+  //   //       },
+  //   //       {
+  //   //         label: '本季',
+  //   //         value: 'quarter'
+  //   //       },
+  //   //       {
+  //   //         label: '本月',
+  //   //         value: 'month'
+  //   //       }
+  //   //     ]
+  //   //   }
+  //   // }
+  //   {
+  //     name: 'search',
+  //     type: 'search',
+  //     label: 'search'
+  //   }
+  //   // {
+  //   //   name: 'picker',
+  //   //   type: 'picker',
+  //   //   label: 'picker',
+  //   //   fieldProps: {
+  //   //     params: {
+  //   //       year: true,
+  //   //       month: true,
+  //   //       day: true,
+  //   //       hour: false,
+  //   //       minute: false,
+  //   //       second: false,
+  //   //       province: true,
+  //   //       city: true,
+  //   //       area: true,
+  //   //       timestamp: true
+  //   //     }
+  //   //   }
+  //   // }
+  // ],
   dropdown: [
+    {
+      name: 'date1',
+      type: 'date',
+      label: 'date1'
+    },
     {
       name: 'picker1',
       type: 'picker',
@@ -149,6 +226,7 @@ const filterConfig = {
       },
       fieldEvents: {
         change: (value, filterRef) => {
+          console.log('🚀 ~ value:', value, filterRef)
           if (value === 'year') {
             filterRef.value.dateRange = {
               startDate: '2022-01-01',
@@ -181,6 +259,25 @@ const filterConfig = {
         3: '三级'
       }
     },
+    {
+      name: 'programmeGrade1122',
+      type: 'select',
+      label: 'request获取',
+      fieldEvents: {
+        change: (value, filterRef) => {
+          console.log('change ~ value:', value)
+          filterRef.value.programmeGrade1122 = value
+        }
+      },
+      request: async () => {
+        return [
+          {
+            label: '1111',
+            value: '111'
+          }
+        ]
+      }
+    },
 
     {
       name: 'dropdownOrganization',
@@ -209,19 +306,27 @@ const filterConfig = {
     {
       name: '项目状态Sub',
       type: 'select',
-      label: '项目状态',
+      label: '项目状态Sub',
       valueEnum: {
         0: '特级',
         1: '一级',
         2: '二级',
         3: '三级'
       }
+    },
+    {
+      name: 'subPicker1',
+      type: 'picker',
+      label: 'subPicker1',
+      fieldProps: {
+        params: {
+          year: true,
+          month: true,
+          day: false
+        }
+      }
     }
   ]
-}
-const filterChange = value => {
-  console.log('filterChange ~ value:', value)
-  filterOutRef.value = value
 }
 </script>
 
