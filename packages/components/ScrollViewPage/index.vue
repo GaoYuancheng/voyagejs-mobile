@@ -20,32 +20,42 @@
       <Card v-if="!slots.default" :border="false" class="cardItem">
         <template #title>
           <Item
-            v-for="item in titleList"
-            v-bind="getPropsFromOptions(slotProps.item, item)"
+            v-for="item in formatList(titleList, slotProps.item)"
+            v-bind="item"
           />
         </template>
         <template #extra>
           <Item
-            v-for="item in extraList"
-            v-bind="getPropsFromOptions(slotProps.item, item)"
+            v-for="item in formatList(extraList, slotProps.item)"
+            v-bind="item"
           />
         </template>
         <template #body>
-          <div class="info" v-for="item in bodyList">
-            <template v-if="getVisible(item.visible, slotProps.item)">
+          <div
+            class="info"
+            v-for="item in formatList(bodyList, slotProps.item)"
+          >
+            <template v-if="item.visible">
               <div class="label">{{ item.label }}</div>
               <div class="value">
-                <Item v-bind="getPropsFromOptions(slotProps.item, item)" />
+                <Item v-bind="item" />
               </div>
             </template>
           </div>
         </template>
 
-        <template #footer>
+        <template
+          #footer
+          v-if="
+            formatList(footerList, slotProps.item).filter(({ visible }) =>
+              Boolean(visible)
+            ).length > 0
+          "
+        >
           <div class="footer">
             <Item
-              v-for="item in footerList"
-              v-bind="getPropsFromOptions(slotProps.item, item)"
+              v-for="item in formatList(footerList, slotProps.item)"
+              v-bind="item"
             />
           </div>
         </template>
@@ -88,20 +98,32 @@ const { list: bodyList = [] } = body
 const { titleList = [], extraList = [] } = header
 const { list: footerList = [] } = footer
 
+const scrollViewRef = ref<any>(null)
 const filterRef = ref({})
+
 const filterChange = values => {
   filterRef.value = values
 }
 
+const formatList = (list, data) =>
+  list.map(item => getPropsFromOptions(data, item))
+
 const getPropsFromOptions = (data, item) => {
-  const { options = [], valueKey = '', text, visible, ...restItem } = item
+  const {
+    options = [],
+    valueKey = '',
+    text,
+    // label: itemLabel,
+    visible,
+    ...restItem
+  } = item
   const obj = options.find(item1 => item1.value === data[valueKey]) || {}
   const { label, value, ...restObj } = obj
-
   return {
     type: item.type,
     ...restObj,
     ...restItem,
+    visible: getVisible(visible, data),
     text:
       typeof text === 'function'
         ? text(data, obj)
@@ -111,6 +133,10 @@ const getPropsFromOptions = (data, item) => {
     }
   }
 }
+
+defineExpose({
+  scrollViewRef
+})
 </script>
 
 <style lang="scss" scoped>

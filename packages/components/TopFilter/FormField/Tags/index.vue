@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 import { watch, ref, computed } from 'vue'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
 
 const emits = defineEmits(['fieldChange', 'change', 'update:modelValue'])
 
@@ -46,6 +45,7 @@ const change = value => {
   .tag {
     padding: 4rpx 8rpx;
     border: 1rpx solid #ccc;
+    border-radius: 8rpx;
     &.selected {
       color: #fff;
       background-color: rgb(0, 100, 255);

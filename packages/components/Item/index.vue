@@ -1,29 +1,31 @@
 <template>
-  <span v-if="type === 'text'" @click="click">
-    {{ text }}
-  </span>
+  <template v-if="!!item.visible">
+    <span v-if="type === 'text'" @click="click">
+      {{ text }}
+    </span>
 
-  <span v-if="type === 'tag'" class="tag" :style="style" @click="click">
-    {{ text }}</span
-  >
-  <span
-    v-if="type === 'button'"
-    class="button"
-    :class="buttonProps.type"
-    @click="click"
-  >
-    {{ text }}</span
-  >
+    <span v-if="type === 'tag'" class="tag" :style="style" @click="click">
+      {{ text }}</span
+    >
+    <span
+      v-if="type === 'button'"
+      class="button"
+      :class="buttonProps.type"
+      @click="click"
+    >
+      {{ text }}</span
+    >
 
-  <span v-if="type === 'badge'" class="badge" @click="click"
-    ><span
-      class="badgeIcon"
-      :style="{
-        background: iconColor
-      }"
-    ></span>
-    {{ text }}</span
-  >
+    <span v-if="type === 'badge'" class="badge" @click="click"
+      ><span
+        class="badgeIcon"
+        :style="{
+          background: iconColor
+        }"
+      ></span>
+      {{ text }}</span
+    >
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -32,7 +34,7 @@ import { computed } from 'vue'
 interface Item {
   label: string
   valueKey: string
-  visible: boolean
+  visible?: boolean
   type: 'text' | 'tag' | 'button' | 'badge'
   text: string
 }
@@ -63,8 +65,21 @@ const item = defineProps({
   onClick: {
     type: Function,
     default: () => {}
+  },
+  visible: {
+    type: Boolean,
+    default: true
+  },
+  options: {
+    type: Array,
+    default: () => []
+  },
+  label: {
+    type: String,
+    default: ''
   }
 })
+
 const { type, text, style, badgeProps, onClick } = item
 
 const click = () => {

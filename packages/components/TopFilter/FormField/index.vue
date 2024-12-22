@@ -55,62 +55,67 @@
 </template>
 
 <script setup lang="ts">
-import Input from "./Input/index.vue";
-import Select from "./Select/index.vue";
-import SelectSub from "./SelectSub/index.vue";
-import DateRangePicker from "./DateRangePicker/index.vue";
-import DatePicker from "./DatePicker/index.vue";
-import Member from "./Member/index.vue";
-import Organization from "./Organization/index.vue";
-import Search from "./Search/index.vue";
-import Tags from "./Tags/index.vue";
-import Picker from "./Picker/index.vue";
-import PickerRange from "./PickerRange/index.vue";
-import { computed, inject, ref } from "vue";
+import Input from './Input/index.vue'
+import Select from './Select/index.vue'
+import SelectSub from './SelectSub/index.vue'
+import DateRangePicker from './DateRangePicker/index.vue'
+import DatePicker from './DatePicker/index.vue'
+import Member from './Member/index.vue'
+import Organization from './Organization/index.vue'
+import Search from './Search/index.vue'
+import Tags from './Tags/index.vue'
+import Picker from './Picker/index.vue'
+import PickerRange from './PickerRange/index.vue'
+import { computed, inject, ref } from 'vue'
 
-const emits = defineEmits(["fieldChange", "update:modelValue", "change"]);
-const filterRef = inject("filterRef");
+const emits = defineEmits(['fieldChange', 'update:modelValue', 'change'])
+const filterRef = inject('filterRef')
 
 const props = defineProps({
   visible: {
     type: Boolean,
-    default: () => true,
+    default: () => true
   },
   itemProps: {
     type: Object,
-    default: () => ({}),
+    default: () => ({})
   },
   isDropdown: {
     type: Boolean,
-    default: false,
+    default: false
   },
   modelValue: {
     type: [String, Number, Array, Object],
-    default: "",
-  },
-});
+    default: ''
+  }
+})
 
-const { itemProps, isDropdown, show } = props;
+const { itemProps, isDropdown } = props
 
-const { fieldEvents = {}, type = "input", ...restProps } = itemProps;
+const {
+  fieldEvents = {},
+  type = 'input',
+  visible = true,
+  ...restProps
+} = itemProps
 
 const resFieldEvents = {
   ...fieldEvents,
-  change: (value) => {
+  change: value => {
     // 这里要先触发 onChange 可能在change中会有filter值的变更 在更新数据
-    fieldEvents?.change?.(value, filterRef);
-    emits("change", value);
+    fieldEvents?.change?.(value, filterRef)
+    emits('change', value)
   },
-  "update:modelValue": (value) => emits("update:modelValue", value),
-};
+  'update:modelValue': value => emits('update:modelValue', value)
+}
 
 const fieldProps = computed(() => {
   return {
     ...restProps,
     isDropdown,
-    modelValue: props.modelValue,
-  };
-});
+    modelValue: props.modelValue
+  }
+})
 
 // defineExpose({
 //   reset: () => {

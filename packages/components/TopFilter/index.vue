@@ -5,11 +5,11 @@
       :class="sub ? 'hasSub' : ''"
       v-if="mainSearch || mainSearchSlot || dropdown || organization"
     >
-      <div class="mainSearch">
+      <div class="mainSearch" :style="mainSearchInfo?.style">
         <slot name="mainSearch" v-if="mainSearchSlot"> </slot>
         <FormField
           v-else
-          v-for="item in mainSearch"
+          v-for="item in mainSearchInfo?.list"
           :key="item.name"
           :itemProps="item"
           :class="item.type === 'search' ? 'mainSearchField' : ''"
@@ -65,7 +65,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
+import {
+  computed,
+  CSSProperties,
+  provide,
+  ref,
+  toRef,
+  useSlots,
+  watch
+} from 'vue'
 import FormField from './FormField/index.vue'
 import Organization from './Organization/index.vue'
 import Sub from './Sub/index.vue'
@@ -81,7 +89,7 @@ type optionItem = {
 
 type FilterItem = {
   /** 筛选项类型 */
-  type:
+  type?:
     | 'search'
     | 'input'
     | 'select'
@@ -90,30 +98,41 @@ type FilterItem = {
     | 'member'
     | 'organization'
     | 'tags'
+    | 'picker'
   /** 表单项参数 会传入表单控件中 */
-  fieldProps: any
+  fieldProps?: Record<string, any>
   /** 表单label */
-  label: string
+  label?: string
   /** 表单options type为  select 时生效 */
   options?: optionItem[]
+  valueEnum?: Record<string, string>
+  request?: () => Promise<optionItem[]>
+  /** 表单name */
   name: string
+  /** 是否显示 */
+  visible?: boolean
+  /** 表单事件 */
+  fieldEvents?: Record<string, Function>
 }
 
-type TopFilterProps = {
+type MainSearch = {
+  style?: CSSProperties
+  list?: FilterItem[]
+}
+
+export type TopFilterProps = {
   // TODO: 后续使用泛型
   /** 初始值 */
   initialValues?: any
   filterConfig: {
     /** 主筛选 */
-    mainSearch?: FilterItem[]
+    mainSearch?: FilterItem[] | MainSearch
     /** 子筛选 */
     sub?: FilterItem[]
-    /** 右侧组织选择 项目级自动隐藏 */
+    /** 右侧组织选择  */
     organization?: FilterItem
     /** 右侧下拉筛选 */
     dropdown?: FilterItem[]
-    /** 表单项事件 */
-    fieldEvents?: Record<string, any>
   }
 }
 
@@ -122,6 +141,11 @@ const props = defineProps<TopFilterProps>()
 const { initialValues = {}, filterConfig = {} } = props
 
 const { mainSearch, sub, dropdown, organization } = filterConfig
+const mainSearchInfo = Array.isArray(mainSearch)
+  ? {
+      list: mainSearch
+    }
+  : mainSearch
 
 // const getDropdownFilter = () => {
 //   const res = dropdown.reduce((prev, item) => {
@@ -171,7 +195,9 @@ const reset = () => {
   //   ...resetObj
   // }
   // dropdownFilterRef.value = {}
-  filterRef.value = {}
+  filterRef.value = {
+    ...initialValues
+  }
 }
 
 // 点击确定
@@ -193,9 +219,6 @@ const dropdownNames = computed(() => {
   z-index: 4;
   .header {
     padding: 16rpx;
-    &.hasSub {
-      // padding-bottom: 0;
-    }
     display: flex;
     align-items: center;
     .mainSearch {

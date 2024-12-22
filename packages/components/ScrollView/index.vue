@@ -41,7 +41,7 @@ type PageInfo = {
 
 interface ScrollViewProps {
   /** 高度 */
-  height?: string
+  height: string
   /** 行key */
   rowKey?: string
   /* 请求   */
@@ -64,7 +64,7 @@ interface ScrollViewProps {
 
 const props = defineProps<ScrollViewProps>()
 
-const { options, request, rowKey = 'id' } = props
+const { options, request, rowKey = 'id', height } = props
 const { defaultPageSize = 10 } = options || {}
 
 const triggered = ref(false)
@@ -145,6 +145,7 @@ watch(
 
 defineExpose({
   refresh: () => getList(1),
+  refreshWithParams: () => getList(1, props.params),
   getList
 })
 </script>
