@@ -21,7 +21,7 @@
     </view>
   </view>
 </template>
-<script setup>
+<script setup lang="ts">
 import { watch, ref } from 'vue'
 import { STATUS_PIE_COLORS } from './data'
 import { getPercentWithPrecision } from './util.js'
@@ -32,16 +32,14 @@ const props = defineProps({
   color: Array
 })
 
-let colorIndex = 0
-
 const getColor = index => {
+  let resIndex = index
   const resColors = props.color || STATUS_PIE_COLORS || []
-  if (resColors.length - 1 > colorIndex) {
-    colorIndex++
-  } else {
-    colorIndex = 0
+  let totalColorLength = resColors.length
+  if (totalColorLength <= index) {
+    resIndex = index % totalColorLength
   }
-  return resColors[colorIndex]
+  return resColors[resIndex]
 }
 
 watch(

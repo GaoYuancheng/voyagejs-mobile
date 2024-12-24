@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import LegendPie from './LegendPie/index.vue'
+import { STATUS_PIE_COLORS } from './LegendPie/data'
 interface Props {
   chartData: {
     name: string
@@ -36,6 +37,7 @@ const opts = computed(() => {
   return {
     type: 'ring',
     // color: ['#2478FF', '#FFCD00', '#49C292'],
+    color: STATUS_PIE_COLORS,
     padding: [20, 20, 20, 20],
     rotate: false,
     dataLabel: false,
