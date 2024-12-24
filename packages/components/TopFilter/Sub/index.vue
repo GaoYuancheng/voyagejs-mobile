@@ -23,6 +23,11 @@
       @confirm="change"
       v-bind="popInfo.picker.fieldProps"
     />
+    <u-select
+      v-model="popInfo.uSelect.show"
+      @confirm="change"
+      v-bind="popInfo.uSelect.fieldProps"
+    />
   </Teleport>
 </template>
 
@@ -47,6 +52,10 @@ const popInfo = ref({
   picker: {
     show: false,
     fieldProps: {}
+  },
+  uSelect: {
+    show: false,
+    fieldProps: {}
   }
 })
 
@@ -67,6 +76,13 @@ const open = index => {
     popInfo.value.picker.fieldProps = {
       ...fieldProps,
       defaultTime: formatPickerTimeValue(filterRef.value[name]).defaultTime
+    }
+  }
+  if (type === 'uSelect') {
+    close()
+    popInfo.value.uSelect.show = true
+    popInfo.value.uSelect.fieldProps = {
+      ...fieldProps
     }
   }
 }
