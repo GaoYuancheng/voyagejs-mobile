@@ -77,6 +77,9 @@ const item = defineProps({
   label: {
     type: String,
     default: ''
+  },
+  tagProps: {
+    type: Object
   }
 })
 
