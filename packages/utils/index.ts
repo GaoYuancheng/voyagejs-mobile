@@ -11,24 +11,44 @@ export const sleep = time => {
   })
 }
 
+// 文件下载
+export function download(url, name) {
+  fetch(url)
+    .then(re => re.blob())
+    .then(re => {
+      const _url = URL.createObjectURL(re)
+      const a = document.createElement('a')
+      a.href = _url
+      a.download = name
+      a.click()
+    })
+}
+
 // 获取文件后缀
 export const getFileSuffix = fileName =>
   fileName ? fileName?.split('.')?.pop() : ''
 
 // 预览文件
-export const previewFile = async (file, previewPageUrl) => {
-  const fileSuffix = getFileSuffix(file)
+type PreviewFileParams = {
+  fileName: string
+  fileUrl: string
+}
+
+type PreviewFile = (file: PreviewFileParams, previewPageUrl?: string) => void
+export const previewFile: PreviewFile = (file, previewPageUrl) => {
+  const fileSuffix = getFileSuffix(file.fileName)
   if (['png', 'jpg', 'jpeg', 'webp', 'image', 'svg'].includes(fileSuffix)) {
     uni.previewImage({ urls: [file.fileUrl] })
     return
   }
   if (previewPageUrl) {
-    uni.navigateTo({
-      url: previewPageUrl,
-      params: {
-        url: encodeURIComponent(file.fileUrl)
-      }
-    })
+    download(file.fileUrl, file.fileName)
+    // uni.navigateTo({
+    //   url: previewPageUrl,
+    //   params: {
+    //     url: encodeURIComponent(file.fileUrl)
+    //   }
+    // })
   }
 }
 
