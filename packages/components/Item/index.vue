@@ -96,6 +96,8 @@ const { iconColor } = badgeProps
 .tag {
   padding: 6rpx 12rpx;
   border-radius: 8rpx;
+  background: rgb(0, 100, 255);
+  color: #fff;
 }
 .badge {
   display: flex;

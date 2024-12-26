@@ -18,7 +18,7 @@
         />
       </div>
 
-      <div v-if="organization" class="organizationIcon">
+      <div v-if="organization && organization.visible" class="organizationIcon">
         <Organization
           v-model="filterRef[organization.name]"
           :itemProps="organization"

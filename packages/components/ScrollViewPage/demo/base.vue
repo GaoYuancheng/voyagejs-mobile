@@ -342,7 +342,10 @@ const cardConfig = {
         },
         onClick: data => {
           const { scrollViewRef } = scrollViewPageRef.value
+          // 带参数刷新
           scrollViewRef.refreshWithParams()
+          // 不带参数刷新
+          scrollViewRef.refresh()
         }
       },
       {

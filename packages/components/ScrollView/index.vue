@@ -170,7 +170,7 @@ const getList = async (pageNum: PageInfo['pageNum'], params?: any) => {
 // 上拉
 const onRefresh = async () => {
   triggered.value = true
-  await getList(1)
+  await getList(1, props.params)
   triggered.value = false
 }
 
@@ -180,7 +180,7 @@ const scrolltolower = async () => {
   const params = { ...pageInfo.value }
   if (params.pageNum < (params.pages || 0)) {
     params.pageNum++
-    await getList(params.pageNum)
+    await getList(params.pageNum, props.params)
   }
 }
 
@@ -200,7 +200,9 @@ watch(
 watch(
   () => selectKeysInfo.value,
   () => {
-    selectedKeys.value = selectKeysInfo.value.map(item => item[rowKey])
+    selectedKeys.value = selectKeysInfo.value
+      ? selectKeysInfo.value.map(item => item[rowKey])
+      : undefined
     selectKeysOnChange?.(selectedKeys.value, selectKeysInfo.value)
   }
 )
