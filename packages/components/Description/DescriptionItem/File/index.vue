@@ -62,7 +62,6 @@ watch(
       `./image/icon_${getFileSuffix(fileName) || 'unknown'}.png`,
       import.meta.url
     ).href
-    console.log('imgUrl:', targetImgUrl)
 
     // const res = await import(`./image/icon_${getFileSuffix(fileName)}.png`)
     imgUrl.value = targetImgUrl

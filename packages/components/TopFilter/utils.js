@@ -1,6 +1,6 @@
 export const getOptions = async config => {
   const { valueEnum, options, request, showAll = true } = config
-  const initialOptions = showAll ? [{ label: '全部', value: '' }] : []
+  const initialOptions = showAll ? [{ label: '全部', value: undefined }] : []
 
   let resOptions = []
 
