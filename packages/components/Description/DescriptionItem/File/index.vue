@@ -55,12 +55,17 @@ const click = (item: DescriptionItem) => {
 }
 
 const imgUrl = ref()
-let defaultUrl = './image/icon_unknown.png'
 watch(
   () => item.fileInfo,
   async newValue => {
-    const res = await import(`./image/icon_${getFileSuffix(fileName)}.png`)
-    imgUrl.value = res.default || defaultUrl
+    const targetImgUrl = new URL(
+      `./image/icon_${getFileSuffix(fileName) || 'unknown'}.png`,
+      import.meta.url
+    ).href
+    console.log('imgUrl:', targetImgUrl)
+
+    // const res = await import(`./image/icon_${getFileSuffix(fileName)}.png`)
+    imgUrl.value = targetImgUrl
   },
   {
     immediate: true
