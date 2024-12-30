@@ -17,7 +17,7 @@
       </view>
     </div>
 
-    <div class="right" :style="rightStyle">
+    <div class="right" v-if="rightList.length" :style="rightStyle">
       <div class="item" v-for="item in rightList">
         <text class="title">{{ getValue(item, 'label') }}</text>
         <text class="value">{{ getValue(item, 'value') }}</text>
