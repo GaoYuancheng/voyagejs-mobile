@@ -45,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import { onShow } from '@dcloudio/uni-app'
 import { onMounted, ref, watch } from 'vue'
 
 type PageInfo = {
@@ -184,6 +185,8 @@ const scrolltolower = async () => {
   }
 }
 
+const refreshWithParams = () => getList(1, props.params)
+
 // 监听参数变化
 watch(
   () => props.params,
@@ -191,7 +194,6 @@ watch(
     getList(1, newValue)
   },
   {
-    immediate: true,
     deep: true
   }
 )
@@ -207,9 +209,13 @@ watch(
   }
 )
 
+onShow(() => {
+  getList(1, props.params)
+})
+
 defineExpose({
   refresh: () => getList(1),
-  refreshWithParams: () => getList(1, props.params),
+  refreshWithParams,
   clearSelected
 })
 </script>

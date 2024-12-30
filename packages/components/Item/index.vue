@@ -80,12 +80,27 @@ const item = defineProps({
   },
   tagProps: {
     type: Object
+  },
+  confirmText: {
+    type: String,
+    default: ''
   }
 })
 
-const { type, text, style, badgeProps, onClick } = item
+const { type, text, style, badgeProps, onClick, confirmText } = item
 
 const click = () => {
+  if (confirmText) {
+    uni.showModal({
+      title: '提示',
+      content: confirmText,
+      success: res => {
+        onClick(item)
+      }
+    })
+    return
+  }
+
   onClick(item)
 }
 

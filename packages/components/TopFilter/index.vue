@@ -87,7 +87,7 @@ type optionItem = {
   value: string
 } & Record<string, any>
 
-type FilterItem = {
+export type FilterItem = {
   /** 筛选项类型 */
   type?:
     | 'search'

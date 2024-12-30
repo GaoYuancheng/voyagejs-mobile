@@ -116,6 +116,7 @@ export interface ScrollViewPageProps {
 
 const { filterProps, request, cardConfig, scrollViewProps } =
   defineProps<ScrollViewPageProps>()
+const { initialValues = {} } = filterProps
 const { body = {}, header = {}, footer = {} } = cardConfig || {}
 
 const { list: bodyList = [] } = body
@@ -123,7 +124,7 @@ const { titleList = [], extraList = [] } = header
 const { list: footerList = [] } = footer
 
 const scrollViewRef = ref<any>(null)
-const filterRef = ref({})
+const filterRef = ref(initialValues)
 
 const filterChange = values => {
   filterRef.value = values
