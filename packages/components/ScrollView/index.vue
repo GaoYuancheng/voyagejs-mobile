@@ -65,12 +65,12 @@ export interface ScrollViewProps {
     pageInfo: PageInfo,
     params: any
   ) => Promise<{
-    pages: number
+    pages?: number
     total: number
     dataList: any[]
   }>
   /** 筛选参数 会带到request 中 */
-  params: any
+  params?: any
   /** 配置 */
   options?: {
     /*  默认分页size */

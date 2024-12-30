@@ -99,6 +99,7 @@ export type FilterItem = {
     | 'organization'
     | 'tags'
     | 'picker'
+    | 'pickerRange'
   /** 表单项参数 会传入表单控件中 */
   fieldProps?: Record<string, any>
   /** 表单label */

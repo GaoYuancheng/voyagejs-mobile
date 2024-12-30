@@ -78,10 +78,10 @@ import { TopFilterProps } from '../TopFilter/index.vue'
 import { ScrollViewProps } from '../ScrollView/index.vue'
 
 export type Item = {
-  type: 'tag' | 'text' | 'badge'
-  label: string
-  valueKey: string
-  visible: boolean | ((data: any) => boolean)
+  type?: 'tag' | 'text' | 'badge'
+  label?: string
+  valueKey?: string
+  visible?: boolean | ((data: any) => boolean)
   options: {
     label?: string
     value?: string
@@ -92,7 +92,7 @@ export type Item = {
   onClick?: (data: any, item: any) => void
 }
 
-interface CardConfig {
+export interface CardConfig {
   header?: {
     titleList?: Item[]
     extraList?: Item[]
@@ -100,7 +100,7 @@ interface CardConfig {
   body?: {
     list?: Item[]
   }
-  footer: {
+  footer?: {
     list?: Item[]
   }
 }

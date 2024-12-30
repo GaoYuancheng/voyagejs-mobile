@@ -1,8 +1,14 @@
 export const getOptions = async config => {
-  const { valueEnum, options, request } = config
-  if (options) return options
+  const { valueEnum, options, request, showAll = true } = config
+  const initialOptions = showAll ? [{ label: '全部', value: '' }] : []
+
+  let resOptions = []
+
+  if (options) {
+    resOptions = options
+  }
   if (valueEnum) {
-    return Object.keys(valueEnum).map(key => {
+    resOptions = Object.keys(valueEnum).map(key => {
       return {
         label: valueEnum[key],
         value: key
@@ -11,8 +17,10 @@ export const getOptions = async config => {
   }
   if (request) {
     const res = await request()
-    return res
+    resOptions = res
   }
+
+  return initialOptions.concat(resOptions)
 }
 
 export const formatPickerTimeValue = value => {

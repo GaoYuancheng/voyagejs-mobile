@@ -61,7 +61,7 @@ const opts = computed(() => {
     },
     extra: {
       ring: {
-        ringWidth: 25,
+        ringWidth: 10,
         activeOpacity: 0.5,
         activeRadius: 10,
         offsetAngle: 0,

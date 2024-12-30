@@ -95,7 +95,9 @@ const click = () => {
       title: '提示',
       content: confirmText,
       success: res => {
-        onClick(item)
+        if (res?.confirm) {
+          onClick(item)
+        }
       }
     })
     return
