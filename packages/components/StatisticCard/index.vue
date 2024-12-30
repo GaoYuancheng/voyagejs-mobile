@@ -19,8 +19,8 @@
 
     <div class="right" v-if="rightList.length" :style="rightStyle">
       <div class="item" v-for="item in rightList">
-        <text class="title">{{ getValue(item, 'label') }}</text>
-        <text class="value">{{ getValue(item, 'value') }}</text>
+        <span class="title">{{ item.label }}</span>
+        <span class="value">{{ getValue(item, 'value') }}</span>
       </div>
     </div>
   </view>
@@ -45,11 +45,15 @@ const iconPath = computed(() => `/static/${props.icon}.svg`)
 const { style: rightStyle = {} } = props.right || {}
 
 const rightList = computed(() => {
+  console.log('rightList ~ rightList:', props.right)
   return Array.isArray(props.right) ? props.right : props.right?.list || []
 })
 
 const getValue = (item, key) => {
-  return typeof item[key] === 'function' ? item[key](item) : item[key]
+  if (item.render && typeof item.render === 'function') {
+    return item.render(item)
+  }
+  return item.value
 }
 
 const handleClick = () => {
