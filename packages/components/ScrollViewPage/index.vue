@@ -82,9 +82,11 @@ export type Item = {
   label?: string
   valueKey?: string
   visible?: boolean | ((data: any) => boolean)
-  options: {
+  style?: CSSProperties
+  confirmText?: string
+  options?: {
     label?: string
-    value?: string
+    value?: string | number
     style?: CSSProperties
     badgeProps?: Record<string, any>
   }[]
