@@ -164,7 +164,7 @@ const filterProps: ScrollViewPageProps['filterProps'] = {
   }
 }
 
-const cardConfig = {
+const cardConfig: ScrollViewPageProps['cardConfig'] = {
   header: {
     titleList: [
       {
