@@ -1,13 +1,16 @@
 {
   "name": "voyajs-mobile",
-  "version": "0.0.1",
-  "description": "A react library developed with dumi",
-  "license": "MIT",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "authors": [],
+  "version": "0.0.30",
+  "main": "packages/index.js",
+  "types": "packages/index.d.ts",
   "files": [
-    "dist"
+    "packages"
   ],
+  "repository": "https://github.com/GaoYuancheng/voyagejs-mobile.git",
+  "author": "gaoyuancheng <389152147@qq.com>",
+  "license": "MIT",
+  "description": "A react library developed with dumi",
   "scripts": {
     "build": "father build",
     "build:watch": "father dev",
@@ -71,6 +74,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "authors": []
+  }
 }

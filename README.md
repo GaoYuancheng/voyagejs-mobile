@@ -1,43 +1,14 @@
-# voyajs-mobile
+## voyagejs 移动端组件库
 
-[![NPM version](https://img.shields.io/npm/v/voyajs-mobile.svg?style=flat)](https://npmjs.org/package/voyajs-mobile)
-[![NPM downloads](http://img.shields.io/npm/dm/voyajs-mobile.svg?style=flat)](https://npmjs.org/package/voyajs-mobile)
+#### 调试
 
-A react library developed with dumi
+创建组件库的 软链接到 目标库的目录下 确保两边修改同步
 
-## Usage
+目标库 通过 修改 alias 来引用当前目录下的组件库
 
-TODO
+1. windows 下执行 （参考 scripts/link.bat）
 
-## Options
+   > cd ../ && mklink [对应目录] voyagejs-mobile
 
-TODO
-
-## Development
-
-```bash
-# install dependencies
-$ pnpm install
-
-# develop library by docs demo
-$ pnpm start
-
-# build library source code
-$ pnpm run build
-
-# build library source code in watch mode
-$ pnpm run build:watch
-
-# build docs
-$ pnpm run docs:build
-
-# Locally preview the production build.
-$ pnpm run docs:preview
-
-# check your project for potential problems
-$ pnpm run doctor
-```
-
-## LICENSE
-
-MIT
+2. 修改 alias
+   'voyagejs-mobile': path.resolve(\_\_dirname, './voyagejs-mobile')
