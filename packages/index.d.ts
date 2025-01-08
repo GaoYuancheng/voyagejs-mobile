@@ -16,3 +16,4 @@ export { default as Affix } from './components/Affix/index.vue'
 export * from './components/Affix/index.vue'
 
 export * from './utils/index'
+export * from './hooks/index'
