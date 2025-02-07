@@ -8,6 +8,7 @@ import Item from './components/Item/index.vue'
 import Affix from './components/Affix/index.vue'
 import Description from './components/Description/index.vue'
 export * from './utils/index'
+export * from './hooks/index'
 
 const install = app => {
   app.component('ScrollView', ScrollView)
