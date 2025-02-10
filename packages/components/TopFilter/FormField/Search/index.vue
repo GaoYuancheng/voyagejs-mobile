@@ -1,10 +1,11 @@
 <template>
   <u-search
-    v-model="inputValue"
+    :modelValue="modelValue"
+    @update:modelValue="value => emits('update:modelValue', value)"
     v-bind="props.fieldProps"
     shape="square"
     :show-action="false"
-    @search="change"
+    @search="search"
   />
 </template>
 
@@ -18,18 +19,9 @@ interface Props {
 const emits = defineEmits(['change', 'update:modelValue'])
 const props = defineProps<Props>()
 
-const inputValue = ref(props.modelValue)
-
-const change = value => {
-  emits('update:modelValue', value)
+const search = value => {
   emits('change', value)
 }
-watch(
-  () => props.modelValue,
-  val => {
-    inputValue.value = val
-  }
-)
 </script>
 
 <style lang="scss" scoped></style>
