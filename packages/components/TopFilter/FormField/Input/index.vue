@@ -1,9 +1,9 @@
 <template>
   <div class="label">{{ label }}</div>
-
   <div class="inputArea">
     <u-input
-      v-model="inputValue"
+      :modelValue="modelValue"
+      @update:modelValue="value => emits('update:modelValue', value)"
       placeholder="请输入"
       v-bind="fieldProps"
       inputAlign="right"
@@ -29,12 +29,9 @@ const emits = defineEmits(['change', 'update:modelValue'])
 const props = defineProps<Props>()
 const { label, fieldProps, name } = props
 
-const inputValue = ref(props.modelValue)
-
 watch(
-  () => inputValue.value,
+  () => props.modelValue,
   val => {
-    emits('update:modelValue', val)
     emits('change', val)
   }
 )
