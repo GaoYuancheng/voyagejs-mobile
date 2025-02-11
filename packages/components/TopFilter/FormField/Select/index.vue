@@ -23,7 +23,6 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, ref, Teleport, watch } from 'vue'
 import { getOptions } from '../../utils'
-import useFormFieldProps from '../../hooks/useFormFieldProps'
 
 interface Props {
   name?: string

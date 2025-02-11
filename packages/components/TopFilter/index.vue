@@ -72,6 +72,8 @@ import {
   ref,
   toRef,
   useSlots,
+  VNode,
+  VueElement,
   watch
 } from 'vue'
 import FormField from './FormField/index.vue'
@@ -100,6 +102,7 @@ export type FilterItem = {
     | 'tags'
     | 'picker'
     | 'pickerRange'
+    | 'custom'
   /** 表单项参数 会传入表单控件中 */
   fieldProps?: Record<string, any>
   /** 表单label */
@@ -114,6 +117,8 @@ export type FilterItem = {
   visible?: boolean
   /** 表单事件 */
   fieldEvents?: Record<string, Function>
+  /** 自定义表单组件 type 为 custom 时使用*/
+  render?: () => VNode
 }
 
 type MainSearch = {

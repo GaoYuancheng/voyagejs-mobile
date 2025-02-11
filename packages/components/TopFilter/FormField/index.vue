@@ -1,5 +1,9 @@
 <template>
-  <div v-if="visible" :class="isDropdown ? 'dropdownFormItem' : ''">
+  <div
+    style="width: 100%"
+    v-if="visible"
+    :class="isDropdown ? 'dropdownFormItem' : ''"
+  >
     <!-- {{ JSON.stringify(itemProps) }} -->
     <Input v-if="type === 'input'" v-bind="fieldProps" v-on="resFieldEvents" />
 
@@ -51,10 +55,16 @@
       v-bind="fieldProps"
       v-on="resFieldEvents"
     />
+
+    <Render
+      v-if="type === 'custom'"
+      v-bind="fieldProps"
+      v-on="resFieldEvents"
+    />
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import Input from './Input/index.vue'
 import Select from './Select/index.vue'
 import SelectSub from './SelectSub/index.vue'
@@ -66,6 +76,7 @@ import Search from './Search/index.vue'
 import Tags from './Tags/index.vue'
 import Picker from './Picker/index.vue'
 import PickerRange from './PickerRange/index.vue'
+import Render from './Render/index.vue'
 import { computed, inject, ref } from 'vue'
 
 const emits = defineEmits(['fieldChange', 'update:modelValue', 'change'])
