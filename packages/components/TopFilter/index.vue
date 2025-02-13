@@ -163,7 +163,8 @@ const mainSearchInfo = Array.isArray(mainSearch)
 
 const dropdownRef = ref()
 const dropdownShowRef = ref(false)
-const filterRef = ref(structuredClone(initialValues))
+// 使用 JSON.stringify JSON.parse 兼容旧版浏览器
+const filterRef = ref(JSON.parse(JSON.stringify(initialValues)))
 // const dropdownFilterRef = ref(getDropdownFilter())
 
 provide('filterRef', filterRef)

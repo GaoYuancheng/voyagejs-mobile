@@ -8,7 +8,7 @@ export const sleep = time => {
 
 export const mockRequest = async (params, resData) => {
   await sleep(1000)
-  return structuredClone(resData)
+  return JSON.parse(JSON.stringify(resData))
 }
 
 // 文件下载
