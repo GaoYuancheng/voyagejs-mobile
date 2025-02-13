@@ -1,6 +1,6 @@
 {
   "name": "voyagejs-mobile",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "main": "packages/index.js",
   "types": "packages/index.d.ts",
   "files": [
