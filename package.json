@@ -1,6 +1,6 @@
 {
   "name": "voyagejs-mobile",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "main": "packages/index.js",
   "types": "packages/index.d.ts",
   "files": [
@@ -45,10 +45,8 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "dependencies": {
-    "antd": "^5.22.7"
-  },
   "devDependencies": {
+    "antd": "^5.22.7",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/react": "^18.0.0",
