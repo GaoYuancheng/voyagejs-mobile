@@ -22,12 +22,14 @@
           <Item
             v-for="item in formatList(titleList, slotProps.item)"
             v-bind="item"
+            :key="item.text"
           />
         </template>
         <template #extra>
           <Item
             v-for="item in formatList(extraList, slotProps.item)"
             v-bind="item"
+            :key="item.text"
           />
         </template>
         <template #body>
@@ -38,7 +40,7 @@
             <template v-if="item.visible">
               <div class="label">{{ item.label }}</div>
               <div class="value">
-                <Item v-bind="item" />
+                <Item v-bind="item" :key="item.text" />
               </div>
             </template>
           </div>
@@ -51,6 +53,7 @@
               Boolean(visible)
             ).length > 0
           "
+          :key="item.text"
         >
           <div class="footer">
             <Item
