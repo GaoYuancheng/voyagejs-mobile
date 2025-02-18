@@ -4,9 +4,9 @@
       <u-image width="80rpx" height="80rpx" :src="imgUrl"></u-image>
       <div class="text u-m-l-24">
         <div class="fileName">
-          {{ fileName }}
+          {{ item.fileInfo?.fileName }}
         </div>
-        <div class="fileSize">{{ fileSize }}M</div>
+        <div class="fileSize">{{ item.fileInfo?.fileSize }}M</div>
       </div>
     </div>
   </u-row>
@@ -47,9 +47,6 @@ import { computed, ref, watch } from 'vue'
 
 const item = defineProps<DescriptionItemType>()
 
-const { fileInfo } = item
-const { fileName, fileUrl, fileSize } = fileInfo || {}
-
 const click = (item: DescriptionItem) => {
   item?.onClick?.(item)
 }
@@ -59,7 +56,7 @@ watch(
   () => item.fileInfo,
   async newValue => {
     const targetImgUrl = new URL(
-      `./image/icon_${getFileSuffix(fileName) || 'unknown'}.png`,
+      `./image/icon_${getFileSuffix(item.fileInfo?.fileName) || 'unknown'}.png`,
       import.meta.url
     ).href
 
