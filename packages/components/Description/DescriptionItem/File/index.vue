@@ -9,23 +9,37 @@
         <div class="fileSize">{{ item.fileInfo?.fileSize }}M</div>
       </div>
     </div>
+    <div class="actions">
+      <span
+        v-for="action in resActions"
+        :key="action.icon"
+        @click="action.onClick(item.fileInfo)"
+      >
+        <u-icon
+          v-if="action.icon"
+          :name="action.icon"
+          :style="action.style"
+        ></u-icon>
+        <span v-if="action.text" :style="action.style">{{ action.text }}</span>
+      </span>
+    </div>
   </u-row>
 </template>
 
 <script setup lang="ts">
 // './image/icon_' + getFileSuffix(fileInfo.fileName) + '.png'
-
-import { getFileSuffix, previewFile } from '../../../../utils'
+import { computed, CSSProperties, ref, watch } from 'vue'
+import { getFileSuffix, download } from '../../../../utils'
 type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
 
 interface LabelProps {
   labelCol?: number
-  labelStyle?: object
+  labelStyle?: CSSProperties
 }
 
 interface ValueProps {
   valueCol?: number
-  valueStyle?: object
+  valueStyle?: CSSProperties
 }
 
 type DescriptionItemType = {
@@ -40,12 +54,51 @@ type DescriptionItemType = {
   }[]
   visible?: boolean
   onClick?: (item: DescriptionItemType) => void
+  actions?: (
+    | {
+        /** 点击事件 */
+        onClick: (item: DescriptionItemType['fileInfo']) => void
+        /** 同u-icon的name */
+        icon?: string
+        /** 按钮文字 */
+        text?: string
+        /** 按钮样式 */
+        style?: CSSProperties
+        /** 内置类型 */
+        type?: 'download' | 'preview'
+      }
+    | string
+  )[]
 } & ValueProps &
   LabelProps
 
-import { computed, ref, watch } from 'vue'
-
 const item = defineProps<DescriptionItemType>()
+
+const typeMap = {
+  download: {
+    icon: 'download',
+    style: {
+      color: '#0064ff'
+    },
+    onClick: fileInfo => {
+      download(fileInfo.fileUrl, fileInfo.fileName)
+    }
+  },
+  preview: {
+    icon: 'eye',
+    style: {
+      color: '#0064ff'
+    }
+  }
+}
+
+const resActions = computed(() => {
+  return item.actions?.map(action => {
+    return typeof action === 'string'
+      ? typeMap[action || ''] || {}
+      : { ...(typeMap[action.type || ''] || {}), ...action }
+  })
+})
 
 const click = (item: DescriptionItem) => {
   item?.onClick?.(item)
@@ -71,6 +124,7 @@ watch(
 
 <style lang="scss" scoped>
 .file {
+  flex-wrap: nowrap;
   .fileName {
     color: #0064ff;
     margin-bottom: 16rpx;
@@ -78,6 +132,14 @@ watch(
   .fileSize {
     color: #c0b099;
     font-size: 24rpx;
+  }
+
+  .actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16rpx;
   }
 }
 </style>

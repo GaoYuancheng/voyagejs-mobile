@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import { CSSProperties } from 'vue'
 type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
 
 interface LabelProps {
@@ -29,6 +30,21 @@ type DescriptionItemType = {
   }[]
   visible?: boolean
   onClick?: (item: DescriptionItemType) => void
+  actions?: (
+    | {
+        /** 点击事件 */
+        onClick: (item: DescriptionItemType['fileInfo']) => void
+        /** 同u-icon的name */
+        icon?: string
+        /** 按钮文字 */
+        text?: string
+        /** 按钮样式 */
+        style?: CSSProperties
+        /** 内置类型 */
+        type?: 'download' | 'preview'
+      }
+    | string
+  )[]
 } & ValueProps &
   LabelProps
 
