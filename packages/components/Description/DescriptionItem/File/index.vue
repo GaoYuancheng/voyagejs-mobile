@@ -3,7 +3,7 @@
     <div class="u-flex" @click="click(item)">
       <u-image width="80rpx" height="80rpx" :src="imgUrl"></u-image>
     </div>
-    <div class="text u-m-l-24">
+    <div class="text u-m-l-24" @click="click(item)">
       <div class="fileName">
         {{ item.fileInfo?.fileName }}
       </div>
