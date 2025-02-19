@@ -2,12 +2,12 @@
   <u-row class="file">
     <div class="u-flex" @click="click(item)">
       <u-image width="80rpx" height="80rpx" :src="imgUrl"></u-image>
-      <div class="text u-m-l-24">
-        <div class="fileName">
-          {{ item.fileInfo?.fileName }}
-        </div>
-        <div class="fileSize">{{ item.fileInfo?.fileSize }}M</div>
+    </div>
+    <div class="text u-m-l-24">
+      <div class="fileName">
+        {{ item.fileInfo?.fileName }}
       </div>
+      <div class="fileSize">{{ item.fileInfo?.fileSize }}M</div>
     </div>
     <div class="actions">
       <span
