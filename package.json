@@ -1,6 +1,6 @@
 {
   "name": "voyagejs-mobile",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "main": "packages/index.js",
   "types": "packages/index.d.ts",
   "files": [
@@ -46,12 +46,14 @@
     ]
   },
   "devDependencies": {
-    "antd": "^5.22.7",
+    "@ant-design/icons": "^5.6.1",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/node": "^22.13.4",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
+    "antd": "^5.22.7",
     "dumi": "^2.4.13",
     "eslint": "^8.23.0",
     "father": "^4.1.0",
@@ -63,10 +65,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "stylelint": "^14.9.1"
-  },
-  "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
   },
   "publishConfig": {
     "access": "public"
