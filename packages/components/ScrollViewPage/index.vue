@@ -18,14 +18,14 @@
     >
       <slot></slot>
       <Card v-if="!slots.default" :border="false" class="cardItem">
-        <template #title>
+        <template #title v-if="getAreaVisible(titleList, slotProps.item)">
           <Item
             v-for="item in formatList(titleList, slotProps.item)"
             v-bind="item"
             :key="item.text"
           />
         </template>
-        <template #extra>
+        <template #extra v-if="getAreaVisible(extraList, slotProps.item)">
           <Item
             v-for="item in formatList(extraList, slotProps.item)"
             v-bind="item"
@@ -48,11 +48,7 @@
 
         <template
           #footer
-          v-if="
-            formatList(footerList, slotProps.item).filter(({ visible }) =>
-              Boolean(visible)
-            ).length > 0
-          "
+          v-if="getAreaVisible(footerList, slotProps.item)"
           :key="item.text"
         >
           <div class="footer">
@@ -137,6 +133,9 @@ const filterChange = values => {
 
 const formatList = (list, data) =>
   list.map(item => getPropsFromOptions(data, item))
+
+const getAreaVisible = (list, item) =>
+  formatList(list, item).filter(({ visible }) => Boolean(visible)).length > 0
 
 const getPropsFromOptions = (data, item) => {
   const {
