@@ -23,6 +23,7 @@ interface Props {
   valueEnum?: Record<string, any>
   options?: Array<any>
   request?: Function
+  showAll?: boolean
 }
 
 const emits = defineEmits(['update:modelValue', 'change'])
