@@ -27,7 +27,9 @@ interface Props {
 }
 
 const emits = defineEmits(['update:modelValue', 'change'])
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  showAll: true
+})
 const { name, label, options, request } = props
 
 const valueRef = ref(props.modelValue)
