@@ -53,8 +53,11 @@ type DescriptionItemType = {
   LabelProps
 
 type DescriptionProps = {
+  /** 标题 */
   title?: string
+  /** 标题右侧区域 */
   extra?: string
+  /** 详情项 */
   items?: DescriptionItemType[]
 } & ValueProps &
   LabelProps

@@ -25,11 +25,6 @@ type DescriptionItemType = {
   type?: 'info' | 'file' | 'checkbox'
   value?: string
   fileInfo?: FileInfo
-  options?: {
-    // 暂时先这么处理
-    label: string
-    value: string
-  }[]
   visible?: boolean
   onClick?: (item: DescriptionItemType) => void
 } & ValueProps &

@@ -8,9 +8,9 @@
     "baseUrl": "./",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
-      "voyajs-mobile": ["src"],
-      "voyajs-mobile/*": ["src/*", "*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": [".dumirc.ts", "src/**/*"]
+  "include": [".dumirc.ts", "src/**/*", "utils"],
+  "exclude": ["node_modules", "dist"]
 }

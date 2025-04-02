@@ -18,8 +18,9 @@ import { ref, watch } from 'vue'
 import { TopFilter, TopFilterProps } from 'voyagejs-mobile'
 
 const initialValues = {
-  programmeGrade11: '2',
-  input1: '1'
+  select: '2',
+  input1: '1',
+  tags1: 'year'
 }
 
 const filterOutRef = ref(initialValues)
@@ -51,42 +52,42 @@ const filterConfig: TopFilterProps['filterConfig'] = {
       justifyContent: 'start'
     },
     list: [
-      {
-        type: 'tags',
-        name: 'tags',
-        visible: false,
-        fieldEvents: {
-          change: (value, filterRef) => {
-            if (value === 'year') {
-              filterRef.value.dateRange = {
-                startDate: '2022-01-01',
-                endDate: '2022-12-31'
-              }
-            }
-          }
-        },
-        fieldProps: {
-          options: [
-            {
-              label: '本年',
-              value: 'year'
-            },
-            {
-              label: '本季',
-              value: 'quarter'
-            },
-            {
-              label: '本月',
-              value: 'month'
-            }
-          ]
-        }
-      }
       // {
-      //   name: 'search',
-      //   type: 'search',
-      //   label: 'search'
+      //   type: 'tags',
+      //   name: 'tags',
+      //   visible: true,
+      //   fieldEvents: {
+      //     change: (value, filterRef) => {
+      //       if (value === 'year') {
+      //         filterRef.value.dateRange = {
+      //           startDate: '2022-01-01',
+      //           endDate: '2022-12-31'
+      //         }
+      //       }
+      //     }
+      //   },
+      //   fieldProps: {
+      //     options: [
+      //       {
+      //         label: '本年',
+      //         value: 'year'
+      //       },
+      //       {
+      //         label: '本季',
+      //         value: 'quarter'
+      //       },
+      //       {
+      //         label: '本月',
+      //         value: 'month'
+      //       }
+      //     ]
+      //   }
       // }
+      {
+        name: 'search',
+        type: 'search',
+        label: 'search'
+      }
       // {
       //   name: 'picker',
       //   type: 'picker',
@@ -166,14 +167,14 @@ const filterConfig: TopFilterProps['filterConfig'] = {
   // ],
   dropdown: [
     {
-      name: 'date1',
+      name: 'date',
       type: 'date',
-      label: 'date1'
+      label: 'date'
     },
     {
-      name: 'picker1',
+      name: 'picker',
       type: 'picker',
-      label: 'picker1',
+      label: 'picker',
       fieldProps: {
         params: {
           year: true,
@@ -190,23 +191,23 @@ const filterConfig: TopFilterProps['filterConfig'] = {
       }
     },
     {
-      name: 'input1',
+      name: 'input',
       type: 'input',
-      label: 'input111',
+      label: 'input',
       fieldProps: {
         placeholder: '请输入'
       },
       fieldEvents: {
         change: (value, filterRef) => {
           if (value === 'aa') {
-            filterRef.value.programmeGrade11 = '1'
+            filterRef.value['select-valueEnum'] = '1'
           }
         }
       }
     },
     {
-      name: 'dropdownTags',
-      label: '预设时间',
+      name: 'tags1',
+      label: 'tags1',
       type: 'tags',
       fieldProps: {
         options: [
@@ -240,12 +241,12 @@ const filterConfig: TopFilterProps['filterConfig'] = {
     {
       name: 'dateRange',
       type: 'dateRange',
-      label: '计划到场时间'
+      label: 'dateRange'
     },
     {
-      name: 'programmeGrade11',
+      name: 'select-valueEnum',
       type: 'select',
-      label: '项目状态',
+      label: 'select-valueEnum',
       fieldEvents: {
         change: (value, filterRef) => {
           console.log('change ~ value:', value)
@@ -260,15 +261,9 @@ const filterConfig: TopFilterProps['filterConfig'] = {
       }
     },
     {
-      name: 'programmeGrade1122',
+      name: 'select-request获取',
       type: 'select',
-      label: 'request获取',
-      fieldEvents: {
-        change: (value, filterRef) => {
-          console.log('change ~ value:', value)
-          filterRef.value.programmeGrade1122 = value
-        }
-      },
+      label: 'select-request获取',
       request: async () => {
         return [
           {
@@ -280,7 +275,7 @@ const filterConfig: TopFilterProps['filterConfig'] = {
     },
 
     {
-      name: 'dropdownOrganization',
+      name: 'organization',
       type: 'organization',
       label: '选择单位',
       fieldProps: {
@@ -294,7 +289,7 @@ const filterConfig: TopFilterProps['filterConfig'] = {
       }
     },
     {
-      name: 'dropdownMember',
+      name: 'member',
       type: 'member',
       label: '选择人员',
       fieldProps: {
@@ -304,9 +299,9 @@ const filterConfig: TopFilterProps['filterConfig'] = {
   ],
   sub: [
     {
-      name: '项目状态Sub',
+      name: 'select',
       type: 'select',
-      label: '项目状态Sub',
+      label: 'select',
       valueEnum: {
         0: '特级',
         1: '一级',
@@ -315,9 +310,9 @@ const filterConfig: TopFilterProps['filterConfig'] = {
       }
     },
     {
-      name: 'subPicker1',
+      name: 'picker',
       type: 'picker',
-      label: 'subPicker1',
+      label: 'picker',
       fieldProps: {
         params: {
           year: true,
