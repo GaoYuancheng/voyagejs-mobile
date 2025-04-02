@@ -1,5 +1,5 @@
 {
-  "name": "voyagejs-mobile",
+  "name": "@pms/voyagejs-mobile",
   "version": "1.0.0",
   "main": "packages/index.js",
   "types": "packages/index.d.ts",
@@ -20,7 +20,6 @@
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
-    "prepare": "husky install && dumi setup",
     "start": "npm run dev"
   },
   "commitlint": {
