@@ -5,16 +5,10 @@ const { NODE_ENV } = process.env
 //development
 //production
 
-const pathPrefix = NODE_ENV === 'production' ? '/voyagejs-mobile/' : '/'
-// const pathPrefix = '/gyc-components/';
-
 const demos = getDemos()
 
 export default defineConfig({
   outputPath: 'docs-dist',
-  publicPath: `${pathPrefix}`,
-
-  base: `${pathPrefix}`,
   resolve: {
     atomDirs: [
       { type: 'components', dir: 'src/components' },
@@ -23,7 +17,7 @@ export default defineConfig({
     ]
   },
   themeConfig: {
-    name: 'gyc-components',
+    name: '@pms/voyagejs-mobile',
     nav: [
       { title: '介绍', link: '/guide' },
       { title: '组件', link: '/components/scroll-view-page' }, // components会默认自动对应到src文件夹
