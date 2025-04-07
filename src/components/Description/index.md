@@ -45,10 +45,10 @@ group:
 
 #### type file 独有属性
 
-| 参数     | 说明       | 类型                                                    | 默认值 |
-| -------- | ---------- | ------------------------------------------------------- | ------ |
-| fileInfo | 文件信息   | `{fileName: string, fileUrl: string, fileSize: number}` | -      |
-| actions  | 操作区设置 | `info \| file \| checkbox`                              | info   |
+| 参数     | 说明       | 类型                                                                                                                 | 默认值 |
+| -------- | ---------- | -------------------------------------------------------------------------------------------------------------------- | ------ |
+| fileInfo | 文件信息   | `{fileName: string, fileUrl: string,`<br> `fileSize: number \| {fileSize: number, unit: string, finalUnit: string}}` | -      |
+| actions  | 操作区设置 | `info \| file \| checkbox`                                                                                           | info   |
 
 actions 可以简写 ['download', 'preview'] 也可以细化配置
 

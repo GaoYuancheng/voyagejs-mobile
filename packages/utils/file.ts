@@ -40,3 +40,28 @@ export const getFileExtension = (fileName?: string): string => {
   const parts = fileName.split('.')
   return parts.length > 1 ? parts.pop()?.toLowerCase() || '' : ''
 }
+
+export type Unit = 'B' | 'K' | 'M' | 'G' | 'b' | 'k' | 'm' | 'g'
+
+// 转换单位 K M G B
+export const convertFileSize = (
+  fileSize: number,
+  unit: Unit = 'B',
+  finalUnit: Unit = 'M'
+) => {
+  // 将文件大小从 unit 单位转换到 finalUnit 单位
+  const units: Unit[] = ['B', 'K', 'M', 'G']
+  const unitIndex = units.indexOf(unit.toUpperCase() as Unit)
+  const finalUnitIndex = units.indexOf(finalUnit.toUpperCase() as Unit)
+  const diff = finalUnitIndex - unitIndex
+
+  if (diff === 0) return fileSize
+
+  // 如果是向上转换(B->K->M->G)则除以1024
+  // 如果是向下转换(G->M->K->B)则乘以1024
+  const res =
+    diff > 0
+      ? fileSize / Math.pow(1024, diff)
+      : fileSize * Math.pow(1024, -diff)
+  return res.toFixed(2)
+}

@@ -7,7 +7,9 @@
       <div class="fileName">
         {{ item.fileInfo?.fileName }}
       </div>
-      <div class="fileSize">{{ item.fileInfo?.fileSize }}M</div>
+      <div class="fileSize" v-if="showFileSize">
+        {{ fileSizeInfo?.fileSize }}{{ fileSizeInfo?.finalUnit }}
+      </div>
     </div>
     <div class="actions">
       <span
@@ -29,8 +31,19 @@
 <script setup lang="ts">
 // './image/icon_' + getFileSuffix(fileInfo.fileName) + '.png'
 import { computed, CSSProperties, ref, watch } from 'vue'
-import { getFileSuffix, download } from '../../../../utils'
-type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
+import { getFileSuffix, download, convertFileSize } from '../../../../utils'
+type Unit = 'B' | 'K' | 'M' | 'G' | 'b' | 'k' | 'm' | 'g'
+type FileInfo = {
+  fileName: string
+  fileUrl: string
+  fileSize:
+    | number
+    | {
+        unit: Unit
+        finalUnit: Unit
+        fileSize: number
+      }
+}
 
 interface LabelProps {
   labelCol?: number
@@ -73,6 +86,27 @@ type DescriptionItemType = {
   LabelProps
 
 const item = defineProps<DescriptionItemType>()
+
+const fileSizeInfo = computed(() => {
+  let fileSize = 0
+  if (item.fileInfo?.fileSize?.fileSize) {
+    fileSize = item.fileInfo?.fileSize?.fileSize
+  } else {
+    fileSize = item.fileInfo?.fileSize || 0
+  }
+  let unit = item?.fileInfo?.fileSize?.unit || 'B'
+  let finalUnit = item?.fileInfo?.fileSize?.finalUnit || 'M'
+
+  return {
+    unit,
+    finalUnit,
+    fileSize: convertFileSize(fileSize, unit, finalUnit)
+  }
+})
+
+const showFileSize = computed(() => {
+  return item.fileInfo?.fileSize !== 0 && !!item.fileInfo?.fileSize
+})
 
 const typeMap = {
   download: {
