@@ -24,6 +24,7 @@ group:
 | request         | 列表请求 同 scrollList request                           | `(pageInfo, params) => `<br>`Promise<{pages?: number,total: number,dataList: any[]}>` | -      |
 | cardConfig      | 卡片内容配置                                             |                                                                                       | -      |
 | scrollViewProps | [ScrollViewProps](/components/scroll-view#api)           |                                                                                       | -      |
+| @filterChange   | 筛选改变回调                                             | `(values: any) => void`                                                               | -      |
 
 ### CardConfig
 

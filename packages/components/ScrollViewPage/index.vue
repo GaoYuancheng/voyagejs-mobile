@@ -1,10 +1,10 @@
 <template>
   <u-page>
-    <TopFilter
-      class="filter"
-      @change="filterChange"
-      v-bind="filterProps"
-    ></TopFilter>
+    <TopFilter class="filter" @change="filterChange" v-bind="filterProps">
+      <template #mainSearch>
+        <slot name="topFilterMainSearch"></slot>
+      </template>
+    </TopFilter>
 
     <slot name="header"></slot>
 
@@ -117,6 +117,9 @@ export interface ScrollViewPageProps {
 
 const { filterProps, request, cardConfig, scrollViewProps } =
   defineProps<ScrollViewPageProps>()
+
+const emits = defineEmits(['filterChange'])
+
 const { initialValues = {} } = filterProps
 const { body = {}, header = {}, footer = {} } = cardConfig || {}
 
@@ -129,6 +132,7 @@ const filterRef = ref(initialValues)
 
 const filterChange = values => {
   filterRef.value = values
+  emits('filterChange', values)
 }
 
 const formatList = (list, data) =>

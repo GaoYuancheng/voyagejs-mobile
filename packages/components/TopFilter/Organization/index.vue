@@ -37,6 +37,7 @@ const organizationPopShow = ref(false)
 const itemClick = item => {
   emits('update:modelValue', item)
   emits('change', item)
+  fieldProps?.onChange(item)
 }
 </script>
 
