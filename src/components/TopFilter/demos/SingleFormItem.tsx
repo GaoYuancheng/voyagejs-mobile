@@ -6,7 +6,7 @@ const SingleFormItem = () => {
   return (
     <CodeDisplay
       imgSrcList={[SingleFormItemPng]}
-      code={DEMOS['TopFilter\\vueDemos\\SingleFormItem.vue']}
+      code={DEMOS['TopFilter/vueDemos/SingleFormItem.vue']}
     ></CodeDisplay>
   )
 }

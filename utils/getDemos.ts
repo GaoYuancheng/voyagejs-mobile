@@ -25,7 +25,10 @@ export const getDemos = () => {
           const demoFilePath = path.join(demosPath, demoFile)
           const demoFileContent = fs.readFileSync(demoFilePath, 'utf8')
           // 将文件内容放入对象中，键为文件的相对路径，值为文件内容
-          const relativePath = path.relative(rootPath, demoFilePath)
+          // 统一路径分隔符为-
+          const relativePath = path
+            .relative(rootPath, demoFilePath)
+            .replace(/[\\/]/g, '/')
           demos[relativePath] = demoFileContent
         })
       }

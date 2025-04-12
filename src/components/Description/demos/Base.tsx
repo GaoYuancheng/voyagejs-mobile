@@ -6,7 +6,7 @@ const DescriptionBase = () => {
   return (
     <CodeDisplay
       imgSrcList={[BasePng]}
-      code={DEMOS['Description\\vueDemos\\Base.vue']}
+      code={DEMOS['Description/vueDemos/Base.vue']}
     ></CodeDisplay>
   )
 }

@@ -7,7 +7,7 @@ const ScrollViewPageBase = () => {
   return (
     <CodeDisplay
       imgSrcList={[BasePng, Base1Png]}
-      code={DEMOS['TopFilter\\vueDemos\\Base.vue']}
+      code={DEMOS['TopFilter/vueDemos/Base.vue']}
     ></CodeDisplay>
   )
 }

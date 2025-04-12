@@ -7,7 +7,7 @@ const ScrollViewBase = () => {
   return (
     <CodeDisplay
       imgSrcList={[SelectedMode]}
-      code={DEMOS['ScrollView\\vueDemos\\SelectedMode.vue']}
+      code={DEMOS['ScrollView/vueDemos/SelectedMode.vue']}
     ></CodeDisplay>
   )
 }
