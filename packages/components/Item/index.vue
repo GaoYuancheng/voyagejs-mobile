@@ -1,22 +1,22 @@
 <template>
-  <template v-if="!!item.visible">
-    <span v-if="type === 'text'" @click="click">
+  <template v-if="!!props.visible">
+    <span v-if="resType === 'text'" @click="click">
       {{ text }}
     </span>
 
-    <span v-if="type === 'tag'" class="tag" :style="style" @click="click">
+    <span v-if="resType === 'tag'" class="tag" :style="style" @click="click">
       {{ text }}</span
     >
     <span
-      v-if="type === 'button'"
+      v-if="resType === 'button'"
       class="button"
-      :class="buttonProps.type"
+      :class="props.buttonProps?.type"
       @click="click"
     >
       {{ text }}</span
     >
 
-    <span v-if="type === 'badge'" class="badge" @click="click"
+    <span v-if="resType === 'badge'" class="badge" @click="click"
       ><span
         class="badgeIcon"
         :style="{
@@ -25,69 +25,64 @@
       ></span>
       {{ text }}</span
     >
+
+    <component
+      :is="props.render(props.data)"
+      v-bind="props"
+      v-if="!!props.render"
+      @click="click"
+    />
   </template>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
+<script setup lang="tsx">
+import { computed, CSSProperties } from 'vue'
 
-interface Item {
-  label: string
-  valueKey: string
-  visible?: boolean
-  type: 'text' | 'tag' | 'button' | 'badge'
-  text: string
+export interface ItemProps {
+  type: 'text' | 'tag' | 'button' | 'badge' | 'custom'
+  style?: CSSProperties
+  badgeProps?: {
+    iconColor?: string
+  }
+  buttonProps?: {
+    type: string
+  }
+  onClick?: (item: ItemProps) => void
+  valueKey?: string
+  visible?: boolean | ((data: any) => boolean)
+  text?: string | ((data: any) => string)
+  options?: {
+    label: string
+    value: string
+  }[]
+  label?: string
+  tagProps?: {
+    type: string
+  }
+  confirmText?: string
+  data?: any
+  render?: any
 }
 
 const emits = defineEmits(['click'])
 
-const item = defineProps({
-  type: {
-    type: String,
-    default: 'text'
-  },
-  text: {
-    type: String,
-    default: ''
-  },
-  style: {
-    type: Object,
-    default: () => ({})
-  },
-  badgeProps: {
-    type: Object,
-    default: () => ({})
-  },
-  buttonProps: {
-    type: Object,
-    default: () => ({})
-  },
-  onClick: {
-    type: Function,
-    default: () => {}
-  },
-  visible: {
-    type: Boolean,
-    default: true
-  },
-  options: {
-    type: Array,
-    default: () => []
-  },
-  label: {
-    type: String,
-    default: ''
-  },
-  tagProps: {
-    type: Object
-  },
-  confirmText: {
-    type: String,
-    default: ''
-  }
+const props = withDefaults(defineProps<ItemProps>(), {
+  type: 'text',
+  text: '',
+  style: () => ({}),
+  badgeProps: undefined,
+  buttonProps: undefined,
+  onClick: () => {},
+  visible: true,
+  options: () => [],
+  label: '',
+  tagProps: undefined,
+  confirmText: '',
+  data: undefined
 })
 
-const { type, text, style, badgeProps, onClick, confirmText } = item
+const { type, text, style, badgeProps, onClick, confirmText } = props
+const resType = !!props.render ? 'custom' : type
 
 const click = () => {
   if (confirmText) {
@@ -96,17 +91,17 @@ const click = () => {
       content: confirmText,
       success: res => {
         if (res?.confirm) {
-          onClick(item)
+          onClick(props)
         }
       }
     })
     return
   }
 
-  onClick(item)
+  onClick(props)
 }
 
-const { iconColor } = badgeProps
+const { iconColor } = badgeProps || {}
 </script>
 
 <style lang="scss" scoped>

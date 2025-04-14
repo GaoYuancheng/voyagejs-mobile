@@ -5,6 +5,10 @@
     :title="label"
     v-model="valueRef"
     @change="change"
+    :style="{
+      overflow: 'auto',
+      height: 'calc(100vh - 400rpx)'
+    }"
   >
   </u-dropdown-item>
 </template>

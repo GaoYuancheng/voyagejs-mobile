@@ -6,7 +6,10 @@ export const sleep = time => {
   })
 }
 
-export const mockRequest = async (params, resData) => {
+export const mockRequest = async <T extends any>(
+  params: any,
+  resData: T
+): Promise<T> => {
   await sleep(1000)
-  return JSON.parse(JSON.stringify(resData))
+  return structuredClone(resData)
 }

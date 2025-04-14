@@ -11,7 +11,7 @@
   />
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import {
   ScrollViewPage,
   ScrollViewPageProps,
@@ -217,6 +217,22 @@ const cardConfig: ScrollViewPageProps['cardConfig'] = {
       {
         label: '总部值班电话：',
         valueKey: 'schemeType'
+      },
+      {
+        label: 'tsx',
+        render: data => {
+          return (
+            <div
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                color: 'red'
+              }}
+            >
+              {JSON.stringify(data)}
+            </div>
+          )
+        }
       }
     ]
   },

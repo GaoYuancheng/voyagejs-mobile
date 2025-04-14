@@ -29,33 +29,42 @@ group:
 ### CardConfig
 
 ```tsx | pure
-type Item = {
-  type?: 'tag' | 'text' | 'badge'
-  label?: string
+interface ItemProps {
+  type: 'text' | 'tag' | 'button' | 'badge' | 'custom'
+  style?: CSSProperties
+  badgeProps?: {
+    iconColor?: string
+  }
+  buttonProps?: {
+    type: string
+  }
+  onClick?: (item: ItemProps) => void
   valueKey?: string
   visible?: boolean | ((data: any) => boolean)
-  style?: CSSProperties
-  confirmText?: string
+  text?: string | ((data: any) => string)
   options?: {
-    label?: string
-    value?: string | number
-    style?: CSSProperties
-    badgeProps?: Record<string, any>
+    label: string
+    value: string
   }[]
-  text?: string | ((data: any, obj: any) => string)
-  onClick?: (data: any, item: any) => void
+  label?: string
+  tagProps?: {
+    type: string
+  }
+  confirmText?: string
+  data?: any
+  render?: any
 }
 
 interface CardConfig {
   header?: {
-    titleList?: Item[]
-    extraList?: Item[]
+    titleList?: ItemProps[]
+    extraList?: ItemProps[]
   }
   body?: {
-    list?: Item[]
+    list?: ItemProps[]
   }
   footer?: {
-    list?: Item[]
+    list?: ItemProps[]
   }
 }
 ```

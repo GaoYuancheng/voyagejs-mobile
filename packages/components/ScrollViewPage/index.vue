@@ -75,34 +75,18 @@ const slots = useSlots()
 
 import { TopFilterProps } from '../TopFilter/index.vue'
 import { ScrollViewProps } from '../ScrollView/index.vue'
-
-export type Item = {
-  type?: 'tag' | 'text' | 'badge'
-  label?: string
-  valueKey?: string
-  visible?: boolean | ((data: any) => boolean)
-  style?: CSSProperties
-  confirmText?: string
-  options?: {
-    label?: string
-    value?: string | number
-    style?: CSSProperties
-    badgeProps?: Record<string, any>
-  }[]
-  text?: string | ((data: any, obj: any) => string)
-  onClick?: (data: any, item: any) => void
-}
+import { ItemProps } from '../Item/index.vue'
 
 export interface CardConfig {
   header?: {
-    titleList?: Item[]
-    extraList?: Item[]
+    titleList?: ItemProps[]
+    extraList?: ItemProps[]
   }
   body?: {
-    list?: Item[]
+    list?: ItemProps[]
   }
   footer?: {
-    list?: Item[]
+    list?: ItemProps[]
   }
 }
 
@@ -163,7 +147,8 @@ const getPropsFromOptions = (data, item) => {
         : obj.label ?? data[valueKey] ?? text,
     onClick: () => {
       item.onClick?.(data, obj)
-    }
+    },
+    data
   }
 }
 
@@ -188,11 +173,12 @@ defineExpose({
         width: 240rpx;
       }
       .value {
-        flex: 1;
+        // flex: 1;
         text-align: right;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        width: calc(100% - 240rpx);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
       }
     }
 

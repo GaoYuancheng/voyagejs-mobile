@@ -242,6 +242,7 @@ defineExpose({
       display: flex;
       .content {
         flex: 1;
+        width: 100%;
       }
     }
   }
