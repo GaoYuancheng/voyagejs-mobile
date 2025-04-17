@@ -34,6 +34,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const opts = computed(() => {
+  const total =
+    props.chartData.reduce((prev, cur) => {
+      return prev + cur.data
+    }, 0) || 0
   return {
     type: 'ring',
     // color: ['#2478FF', '#FFCD00', '#49C292'],
@@ -53,9 +57,7 @@ const opts = computed(() => {
       color: 'rgba(0, 0, 0, 0.65)'
     },
     subtitle: {
-      name: props.chartData.reduce((prev, cur) => {
-        return prev + cur.data
-      }, 0),
+      name: `${total}`,
       fontSize: 28,
       color: '#000'
     },
