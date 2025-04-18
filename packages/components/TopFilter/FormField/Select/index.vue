@@ -34,13 +34,16 @@ interface Props {
   valueEnum?: Record<string, any>
   options?: Array<any>
   request?: Function
+  showAll?: boolean
 }
 
 const emits = defineEmits(['update:modelValue', 'change'])
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  showAll: true
+})
 
-const { label, fieldProps, placeholder } = props
+const { label, fieldProps, placeholder, showAll } = props
 
 const optionsRef = ref<any>([])
 
