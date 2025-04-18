@@ -2,9 +2,12 @@
   <div class="label" v-if="isDropdown">{{ label }}</div>
 
   <div class="searchArea" @click="showRef = true">
-    <span v-if="!isDropdown">{{ label }}</span>
-    <span v-else-if="showInfo.showText">{{ showInfo.showText }}</span>
-    <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
+    <span class="content" :style="textStyle">
+      <span v-if="!isDropdown">{{ label }}</span>
+      <span v-else-if="showInfo.showText">{{ showInfo.showText }}</span>
+      <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
+    </span>
+
     <u-icon v-if="showIcon" class="icon" name="arrow-down"></u-icon>
   </div>
 
@@ -22,7 +25,7 @@
 import { computed, ref, Teleport } from 'vue'
 import { formatPickerTimeValue } from '../../utils'
 
-interface Props {
+export interface PickerProps {
   name?: string
   label?: string
   placeholder?: string
@@ -30,14 +33,17 @@ interface Props {
   isDropdown?: boolean
   modelValue?: any
   showIcon?: boolean
+  textStyle?: Record<string, any>
 }
 
 const emits = defineEmits(['change', 'update:modelValue'])
 
-const props = withDefaults(defineProps<Props>(), {
-  showIcon: true
+const props = withDefaults(defineProps<PickerProps>(), {
+  showIcon: true,
+  textStyle: {}
 })
-const { placeholder, isDropdown, label, fieldProps, showIcon } = props
+const { placeholder, isDropdown, label, fieldProps, showIcon, textStyle } =
+  props
 
 const showRef = ref(false)
 
@@ -54,6 +60,8 @@ const confirm = val => {
 
 <style lang="scss" scoped>
 .searchArea {
+  display: flex;
+  align-items: center;
   .placeholder {
     color: #ccc;
   }

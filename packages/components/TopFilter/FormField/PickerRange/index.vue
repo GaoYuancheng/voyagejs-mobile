@@ -10,6 +10,7 @@
         :modelValue="props.modelValue.start"
         @update:modelValue="startConfirm"
         :showIcon="false"
+        v-bind="pickerProps"
       />
     </div>
 
@@ -23,6 +24,7 @@
         :modelValue="props.modelValue.end"
         @update:modelValue="endConfirm"
         :showIcon="false"
+        v-bind="pickerProps"
       />
     </div>
 
@@ -34,6 +36,7 @@
 
 <script setup lang="ts">
 import Picker from '../Picker/index.vue'
+import { PickerProps } from '../Picker/index.vue'
 
 interface Props {
   name?: string
@@ -42,12 +45,13 @@ interface Props {
   fieldProps?: Record<string, any>
   isDropdown?: boolean
   modelValue?: any
+  pickerProps?: PickerProps
 }
 
 const emits = defineEmits(['change', 'update:modelValue'])
 
 const props = defineProps<Props>()
-const { placeholder, isDropdown, label, fieldProps } = props
+const { placeholder, isDropdown, label, fieldProps, pickerProps } = props
 
 const [startPlaceholder, endPlaceholder] = Array.isArray(placeholder)
   ? placeholder
