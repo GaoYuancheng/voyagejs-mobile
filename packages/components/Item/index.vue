@@ -39,7 +39,7 @@
 import { computed, CSSProperties } from 'vue'
 
 export interface ItemProps {
-  type: 'text' | 'tag' | 'button' | 'badge' | 'custom'
+  type?: 'text' | 'tag' | 'button' | 'badge' | 'custom'
   style?: CSSProperties
   badgeProps?: {
     iconColor?: string

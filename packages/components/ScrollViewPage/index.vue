@@ -37,12 +37,10 @@
             class="info"
             v-for="item in formatList(bodyList, slotProps.item)"
           >
-            <template v-if="item.visible">
-              <div class="label">{{ item.label }}</div>
-              <div class="value">
-                <Item v-bind="item" :key="item.text" />
-              </div>
-            </template>
+            <div class="label">{{ item.label }}</div>
+            <div class="value">
+              <Item v-bind="item" :key="item.text" />
+            </div>
           </div>
         </template>
 
@@ -104,7 +102,7 @@ const { filterProps, request, cardConfig, scrollViewProps } =
 
 const emits = defineEmits(['filterChange'])
 
-const { initialValues = {} } = filterProps
+const { initialValues = {} } = filterProps || {}
 const { body = {}, header = {}, footer = {} } = cardConfig || {}
 
 const { list: bodyList = [] } = body
@@ -120,7 +118,7 @@ const filterChange = values => {
 }
 
 const formatList = (list, data) =>
-  list.map(item => getPropsFromOptions(data, item))
+  list.map(item => getPropsFromOptions(data, item)).filter(item => item.visible)
 
 const getAreaVisible = (list, item) =>
   formatList(list, item).filter(({ visible }) => Boolean(visible)).length > 0
