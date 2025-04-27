@@ -7,7 +7,6 @@
     </TopFilter>
 
     <slot name="header"></slot>
-
     <ScrollView
       ref="scrollViewRef"
       :params="filterRef"
@@ -44,14 +43,11 @@
           </div>
         </template>
 
-        <template
-          #footer
-          v-if="getAreaVisible(footerList, slotProps.item)"
-          :key="item.text"
-        >
+        <template #footer v-if="getAreaVisible(footerList, slotProps.item)">
           <div class="footer">
             <Item
               v-for="item in formatList(footerList, slotProps.item)"
+              :key="item.text"
               v-bind="item"
             />
           </div>
@@ -120,8 +116,7 @@ const filterChange = values => {
 const formatList = (list, data) =>
   list.map(item => getPropsFromOptions(data, item)).filter(item => item.visible)
 
-const getAreaVisible = (list, item) =>
-  formatList(list, item).filter(({ visible }) => Boolean(visible)).length > 0
+const getAreaVisible = (list, item) => formatList(list, item).length > 0
 
 const getPropsFromOptions = (data, item) => {
   const {
