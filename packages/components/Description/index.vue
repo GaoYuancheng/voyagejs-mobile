@@ -6,24 +6,37 @@
         {{ title }}
       </div>
     </div>
-    <div class="extra" v-if="slots.extra || extra">
+    <div class="extra" v-if="slots.extra || extra || collapse">
       <slot name="extra" v-if="slots.extra"></slot>
       <div class="extraText" v-else-if="extra">
         {{ extra }}
       </div>
+      <div class="collapse" v-if="collapse" @click="collapseRef = !collapseRef">
+        <template v-if="collapseRef">
+          <u-icon name="arrow-down" />
+        </template>
+        <template v-else> <u-icon name="arrow-up" /> </template>
+      </div>
     </div>
   </div>
-  <view class="body">
-    <div class="item" :key="item.label" v-for="(item, index) in items">
-      <DescriptionItem v-bind="item" v-if="getVisible(item.visible, {})" />
+  <view
+    class="body"
+    :style="{ 'grid-template-rows': collapseRef ? '0fr' : '1fr' }"
+  >
+    <div style="overflow: hidden">
+      <slot name="body" v-if="slots.body"></slot>
+      <div class="item" :key="item.label" v-else v-for="(item, index) in items">
+        <DescriptionItem v-bind="item" v-if="getVisible(item.visible, {})" />
+      </div>
     </div>
   </view>
 </template>
 
 <script setup lang="ts">
-import { useSlots } from 'vue'
+import { ref, useSlots } from 'vue'
 import { getVisible } from '../../utils'
 import DescriptionItem from './DescriptionItem/index.vue'
+import type { DescriptionItemType } from './type'
 
 type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
 
@@ -37,21 +50,6 @@ interface ValueProps {
   valueStyle?: object
 }
 
-type DescriptionItemType = {
-  label?: string
-  type?: 'info' | 'file' | 'checkbox'
-  value?: string
-  fileInfo?: FileInfo
-  options?: {
-    // 暂时先这么处理
-    label: string
-    value: string
-  }[]
-  visible?: boolean
-  onClick?: (item: DescriptionItemType) => void
-} & ValueProps &
-  LabelProps
-
 type DescriptionProps = {
   /** 标题 */
   title?: string
@@ -59,13 +57,21 @@ type DescriptionProps = {
   extra?: string
   /** 详情项 */
   items?: DescriptionItemType[]
+  /** 是否折叠 */
+  collapse?: boolean
 } & ValueProps &
   LabelProps
 
-const { title, items, valueCol, labelCol, extra } =
-  defineProps<DescriptionProps>()
+const { title, items, collapse, extra } = withDefaults(
+  defineProps<DescriptionProps>(),
+  {
+    collapse: false
+  }
+)
 
 const slots = useSlots()
+
+const collapseRef = ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +79,11 @@ const slots = useSlots()
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .extra {
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+  }
 }
 .title {
   font-size: 30rpx;
@@ -85,6 +96,9 @@ const slots = useSlots()
   margin: 24rpx 0 24rpx 0;
   font-size: 30rpx;
   font-weight: 400;
+  display: grid;
+  transition: 250ms grid-template-rows ease;
+  overflow: hidden;
   .item {
     padding: 24rpx;
     border-bottom: 1px solid #eee;

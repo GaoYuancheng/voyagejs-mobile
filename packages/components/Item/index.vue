@@ -1,6 +1,6 @@
 <template>
   <template v-if="!!props.visible">
-    <span v-if="resType === 'text'" @click="click">
+    <span v-if="resType === 'text'" @click="click" :style="style">
       {{ text }}
     </span>
 
@@ -47,10 +47,10 @@ export interface ItemProps {
   buttonProps?: {
     type: string
   }
-  onClick?: (item: ItemProps) => void
+  onClick?: (data: any) => void
   valueKey?: string
   visible?: boolean | ((data: any) => boolean)
-  text?: string | ((data: any) => string)
+  text?: string | ((data: any) => string) | number
   options?: {
     label: string
     value: string
@@ -78,7 +78,8 @@ const props = withDefaults(defineProps<ItemProps>(), {
   label: '',
   tagProps: undefined,
   confirmText: '',
-  data: undefined
+  data: undefined,
+  render: undefined
 })
 
 const { type, text, style, badgeProps, onClick, confirmText } = props

@@ -32,58 +32,7 @@
 // './image/icon_' + getFileSuffix(fileInfo.fileName) + '.png'
 import { computed, CSSProperties, ref, watch } from 'vue'
 import { getFileSuffix, download, convertFileSize } from '../../../../utils'
-type Unit = 'B' | 'K' | 'M' | 'G' | 'b' | 'k' | 'm' | 'g'
-type FileInfo = {
-  fileName: string
-  fileUrl: string
-  fileSize:
-    | number
-    | {
-        unit: Unit
-        finalUnit: Unit
-        fileSize: number
-      }
-}
-
-interface LabelProps {
-  labelCol?: number
-  labelStyle?: CSSProperties
-}
-
-interface ValueProps {
-  valueCol?: number
-  valueStyle?: CSSProperties
-}
-
-type DescriptionItemType = {
-  label?: string
-  type?: 'info' | 'file' | 'checkbox'
-  value?: string
-  fileInfo?: FileInfo
-  options?: {
-    // 暂时先这么处理
-    label: string
-    value: string
-  }[]
-  visible?: boolean
-  onClick?: (item: DescriptionItemType) => void
-  actions?: (
-    | {
-        /** 点击事件 */
-        onClick: (item: DescriptionItemType['fileInfo']) => void
-        /** 同u-icon的name */
-        icon?: string
-        /** 按钮文字 */
-        text?: string
-        /** 按钮样式 */
-        style?: CSSProperties
-        /** 内置类型 */
-        type?: 'download' | 'preview'
-      }
-    | string
-  )[]
-} & ValueProps &
-  LabelProps
+import { DescriptionItemType } from '../../type'
 
 const item = defineProps<DescriptionItemType>()
 
@@ -134,7 +83,7 @@ const resActions = computed(() => {
   })
 })
 
-const click = (item: DescriptionItem) => {
+const click = (item: DescriptionItemType) => {
   item?.onClick?.(item)
 }
 

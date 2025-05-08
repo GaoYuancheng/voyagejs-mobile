@@ -1,6 +1,11 @@
 <template>
   <u-page>
-    <TopFilter class="filter" @change="filterChange" v-bind="filterProps">
+    <TopFilter
+      v-if="!!filterProps"
+      class="filter"
+      @change="filterChange"
+      v-bind="filterProps"
+    >
       <template #mainSearch v-if="slots.topFilterMainSearch">
         <slot name="topFilterMainSearch"></slot>
       </template>
