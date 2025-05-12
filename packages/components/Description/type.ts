@@ -25,7 +25,7 @@ interface ValueProps {
 
 export type DescriptionItemType = {
   label?: string
-  type?: 'info' | 'file' | 'checkbox'
+  type?: 'info' | 'file' | 'checkbox' | 'custom' | 'link'
   value?: string
   fileInfo?: FileInfo
   options?: {
@@ -50,6 +50,7 @@ export type DescriptionItemType = {
       }
     | string
   )[]
+  link?: string
   render?: (data: any) => any
 } & ValueProps &
   LabelProps

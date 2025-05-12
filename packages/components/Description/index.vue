@@ -26,7 +26,10 @@
     <div style="overflow: hidden">
       <slot name="body" v-if="slots.body"></slot>
       <div class="item" :key="item.label" v-else v-for="(item, index) in items">
-        <DescriptionItem v-bind="item" v-if="getVisible(item.visible, {})" />
+        <DescriptionItem
+          v-bind="{ ...item, labelCol, labelStyle, valueCol, valueStyle }"
+          v-if="getVisible(item.visible, {})"
+        />
       </div>
     </div>
   </view>
@@ -62,12 +65,19 @@ type DescriptionProps = {
 } & ValueProps &
   LabelProps
 
-const { title, items, collapse, extra } = withDefaults(
-  defineProps<DescriptionProps>(),
-  {
-    collapse: false
-  }
-)
+const {
+  title,
+  items,
+  collapse,
+  extra,
+  labelCol,
+  labelStyle,
+  valueCol,
+  valueStyle
+} = withDefaults(defineProps<DescriptionProps>(), {
+  collapse: false,
+  visible: true
+})
 
 const slots = useSlots()
 

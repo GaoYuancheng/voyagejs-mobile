@@ -1,7 +1,8 @@
 <template>
-  <Info v-if="type === 'info'" v-bind="item" />
-  <CheckBox v-if="type === 'checkbox'" v-bind="item" />
-  <File v-if="type === 'file'" v-bind="item" />
+  <Info v-if="item.type === 'info'" v-bind="item" />
+  <CheckBox v-if="item.type === 'checkbox'" v-bind="item" />
+  <File v-if="item.type === 'file'" v-bind="item" />
+  <Link v-if="item.type === 'link'" v-bind="item" />
   <Custom
     :is="item.render(item)"
     v-bind="item"
@@ -14,12 +15,13 @@
 import Info from './Info/index.vue'
 import CheckBox from './CheckBox/index.vue'
 import File from './File/index.vue'
+import Link from './Link/index.vue'
 import Custom from './Custom/index.vue'
 import { DescriptionItemType } from '../type'
 
-const item = defineProps<DescriptionItemType>()
-
-const { type = 'info' } = item
+const item = withDefaults(defineProps<DescriptionItemType>(), {
+  type: 'info'
+})
 </script>
 
 <style lang="scss" scoped></style>
