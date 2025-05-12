@@ -2,16 +2,20 @@
   <div class="header">
     <div class="title" v-if="slots.title || title">
       <slot name="title" v-if="slots.title"></slot>
-      <div class="titleText" v-else-if="title">
-        {{ title }}
+      <div class="titleText" v-else-if="props.title">
+        {{ props.title }}
       </div>
     </div>
-    <div class="extra" v-if="slots.extra || extra || collapse">
+    <div class="extra" v-if="slots.extra || props.extra || props.collapse">
       <slot name="extra" v-if="slots.extra"></slot>
-      <div class="extraText" v-else-if="extra">
-        {{ extra }}
+      <div class="extraText" v-else-if="props.extra">
+        {{ props.extra }}
       </div>
-      <div class="collapse" v-if="collapse" @click="collapseRef = !collapseRef">
+      <div
+        class="collapse"
+        v-if="props.collapse"
+        @click="collapseRef = !collapseRef"
+      >
         <template v-if="collapseRef">
           <u-icon name="arrow-down" />
         </template>
@@ -25,9 +29,20 @@
   >
     <div style="overflow: hidden">
       <slot name="body" v-if="slots.body"></slot>
-      <div class="item" :key="item.label" v-else v-for="(item, index) in items">
+      <div
+        class="item"
+        :key="item.label"
+        v-else
+        v-for="(item, index) in props.items"
+      >
         <DescriptionItem
-          v-bind="{ ...item, labelCol, labelStyle, valueCol, valueStyle }"
+          v-bind="{
+            labelCol: props.labelCol,
+            labelStyle: props.labelStyle,
+            valueCol: props.valueCol,
+            valueStyle: props.valueStyle,
+            ...item
+          }"
           v-if="getVisible(item.visible, {})"
         />
       </div>
@@ -65,16 +80,7 @@ type DescriptionProps = {
 } & ValueProps &
   LabelProps
 
-const {
-  title,
-  items,
-  collapse,
-  extra,
-  labelCol,
-  labelStyle,
-  valueCol,
-  valueStyle
-} = withDefaults(defineProps<DescriptionProps>(), {
+const props = withDefaults(defineProps<DescriptionProps>(), {
   collapse: false
 })
 
