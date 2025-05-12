@@ -20,7 +20,8 @@ import Custom from './Custom/index.vue'
 import { DescriptionItemType } from '../type'
 
 const item = withDefaults(defineProps<DescriptionItemType>(), {
-  type: 'info'
+  type: 'info',
+  visible: true
 })
 </script>
 

@@ -75,8 +75,7 @@ const {
   valueCol,
   valueStyle
 } = withDefaults(defineProps<DescriptionProps>(), {
-  collapse: false,
-  visible: true
+  collapse: false
 })
 
 const slots = useSlots()
