@@ -5,8 +5,10 @@
 
   <div class="searchArea" @click="showRef = true">
     <div class="text">
-      <span v-if="modelValue?.result">{{ modelValue?.result }}</span>
-      <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
+      <div :style="{ ...textStyle }">
+        <span v-if="modelValue?.result">{{ modelValue?.result }}</span>
+        <span v-else class="placeholder">{{ placeholder || '请选择' }}</span>
+      </div>
       <u-icon class="icon" name="arrow-down"></u-icon>
     </div>
   </div>
@@ -30,12 +32,19 @@ interface Props {
   fieldProps?: Record<string, any>
   modelValue?: any
   placeholder?: string
+  textStyle?: Record<string, any>
 }
 
 const showRef = ref(false)
 
 const emits = defineEmits(['change', 'update:modelValue'])
-const { label, fieldProps, modelValue, placeholder } = defineProps<Props>()
+const {
+  label,
+  fieldProps,
+  modelValue,
+  placeholder,
+  textStyle = {}
+} = defineProps<Props>()
 
 const change = value => {
   emits('update:modelValue', value)
@@ -45,6 +54,10 @@ const change = value => {
 
 <style lang="scss" scoped>
 .searchArea {
+  .text {
+    display: flex;
+    align-items: center;
+  }
   .placeholder {
     color: #ccc;
   }

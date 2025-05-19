@@ -7,28 +7,19 @@ import StatisticCard from './components/StatisticCard/index.vue'
 import Item from './components/Item/index.vue'
 import Affix from './components/Affix/index.vue'
 import Description from './components/Description/index.vue'
+import DescriptionIcon from './components/DescriptionIcon/index.vue'
+import StatisticsCard from './components/StatisticsCard/index.vue'
+import FormCard from './components/FormCard/index.vue'
 export * from './utils/index'
 export * from './hooks/index'
-
-const install = app => {
-  app.component('ScrollView', ScrollView)
-  app.component('TopFilter', TopFilter)
-  app.component('Card', Card)
-  app.component('RingChart', RingChart)
-  app.component('ScrollViewPage', ScrollViewPage)
-  app.component('StatisticCard', StatisticCard)
-  app.component('Description', Description)
-  app.component('Item', Item)
-}
-
-export default {
-  install
-}
 
 export {
   ScrollView,
   TopFilter,
   Card,
+  DescriptionIcon,
+  FormCard,
+  StatisticsCard,
   RingChart,
   ScrollViewPage,
   Description,

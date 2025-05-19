@@ -29,23 +29,19 @@
   >
     <div style="overflow: hidden">
       <slot name="body" v-if="slots.body"></slot>
-      <div
-        class="item"
-        :key="item.label"
-        v-else
-        v-for="(item, index) in props.items"
-      >
-        <DescriptionItem
-          v-bind="{
-            labelCol: props.labelCol,
-            labelStyle: props.labelStyle,
-            valueCol: props.valueCol,
-            valueStyle: props.valueStyle,
-            ...item
-          }"
-          v-if="getVisible(item.visible, {})"
-        />
-      </div>
+      <template :key="item.label" v-for="(item, index) in props.items">
+        <div class="item" v-if="getVisible(item.visible, {})">
+          <DescriptionItem
+            v-bind="{
+              labelCol: props.labelCol,
+              labelStyle: props.labelStyle,
+              valueCol: props.valueCol,
+              valueStyle: props.valueStyle,
+              ...item
+            }"
+          />
+        </div>
+      </template>
     </div>
   </view>
 </template>
@@ -54,7 +50,9 @@
 import { ref, useSlots } from 'vue'
 import { getVisible } from '../../utils'
 import DescriptionItem from './DescriptionItem/index.vue'
-import type { DescriptionItemType } from './type'
+import type { DescriptionItemType as DescriptionItemTypeOrigin } from './type'
+
+export type DescriptionItemType = DescriptionItemTypeOrigin
 
 type FileInfo = { fileName: string; fileUrl: string; fileSize: number }
 
@@ -68,7 +66,7 @@ interface ValueProps {
   valueStyle?: object
 }
 
-type DescriptionProps = {
+export type DescriptionProps = {
   /** 标题 */
   title?: string
   /** 标题右侧区域 */

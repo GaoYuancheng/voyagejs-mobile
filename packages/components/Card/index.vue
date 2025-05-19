@@ -1,16 +1,24 @@
 <template>
-  <div class="card">
+  <div class="card" :style="cardStyle">
     <div class="cardHeader" v-if="slots.title || slots.extra || title || extra">
       <div class="title">
         <slot v-if="slots.title" name="title"></slot>
-        <span v-else> {{ title }}</span>
+        <span v-else>
+          {{ title }}
+          <DescriptionIcon
+            style="margin-left: 8rpx"
+            v-if="titleDescription"
+            :description="titleDescription"
+            :size="32"
+          />
+        </span>
       </div>
       <div class="extra">
         <slot v-if="slots.extra" name="extra"></slot>
         <span v-else> {{ extra }}</span>
       </div>
     </div>
-    <div class="cardBody">
+    <div class="cardBody" :style="bodyStyle">
       <slot v-if="slots.default"></slot>
       <slot v-if="slots.body" name="body"></slot>
     </div>
@@ -21,18 +29,21 @@
   </div>
 </template>
 
-<script setup>
-import { useSlots } from 'vue'
+<script setup lang="ts">
+import { ref, useSlots, CSSProperties } from 'vue'
+import DescriptionIcon from '../DescriptionIcon/index.vue'
 
-defineProps({
-  title: {
-    type: String,
-    default: () => ''
-  },
-  extra: {
-    type: String,
-    default: () => ''
-  }
+export type CardProps = {
+  title?: string
+  titleDescription?: string
+  extra?: string
+  bodyStyle?: CSSProperties
+  cardStyle?: CSSProperties
+}
+
+const props = withDefaults(defineProps<CardProps>(), {
+  bodyStyle: () => ({}),
+  cardStyle: () => ({})
 })
 
 const slots = useSlots()
