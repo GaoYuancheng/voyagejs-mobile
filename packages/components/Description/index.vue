@@ -76,7 +76,7 @@ export type DescriptionProps = {
   /** 是否折叠 */
   collapse?: boolean
 } & ValueProps &
-  LabelProps
+  LabelProps & Record<string, any>
 
 const props = withDefaults(defineProps<DescriptionProps>(), {
   collapse: false

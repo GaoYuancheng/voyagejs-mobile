@@ -2,7 +2,7 @@
   <span>
     <u-icon
       v-if="description"
-      @click="descriptionModalShowRef = true"
+      @click="clickDescription"
       :name="icon"
       :size="size"
     ></u-icon>
@@ -24,6 +24,8 @@ import { ref } from 'vue'
 const descriptionModalShowRef = ref(false)
 const props = withDefaults(
   defineProps<{
+    /** 是否显示描述 */
+    type?: 'modal' | 'tooltip'
     /** u-icon 的 name */
     icon?: string
     /** 图标的大小 */
@@ -34,9 +36,25 @@ const props = withDefaults(
   {
     icon: 'question-circle',
     description: '',
-    size: 16
+    size: 16,
+    type: 'tooltip'
   }
 )
+
+const clickDescription = () => {
+  if (props.type === 'modal') {
+    descriptionModalShowRef.value = true
+    return
+  }
+
+  if (props.type === 'tooltip') {
+    uni.showToast({
+      title: props.description,
+      icon: 'none',
+      duration: 2000
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
